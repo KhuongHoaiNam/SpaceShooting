@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb23dde4d66887a4280357dcc1bbe97f, type: 3}
+  m_Name: DataSpaceShip
+  m_EditorClassIdentifier: 
+  dataConfigLevelSpaceShips:
+  - level: 0
+    Hp: 1000
+    Dm: 100
+    gun: {fileID: 1714582365053593278, guid: 47a42c48cd7d1794188f3a986aa1ee32, type: 3}
+  - level: 1
+    Hp: 2000
+    Dm: 200
+    gun: {fileID: 6565525404246078056, guid: d56a3482668f9f244a63b601b6a42752, type: 3}
+  - level: 2
+    Hp: 3000
+    Dm: 100
+    gun: {fileID: 6348011597317644657, guid: 806eec48910510044b643e01aabb25d4, type: 3}
