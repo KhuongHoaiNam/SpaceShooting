@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ad5377a0f1e0474dae14be7d60ec74b, type: 3}
-  m_Name: Level1
+  m_Script: {fileID: 11500000, guid: 602d72047ffda234f8565485e1db79b1, type: 3}
+  m_Name: Wave_2_1
   m_EditorClassIdentifier: 
-  waveData:
-  - {fileID: 0}
+  spawner:
+  - {fileID: 11400000, guid: 963078b92d49a934591f5e2f2111552e, type: 2}
