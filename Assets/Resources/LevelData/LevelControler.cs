@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class LevelControler : SingletonMono<LevelControler>
 {
-    public LevelData levelData; // Reference to your LevelData ScriptableObject
+    public TotalLevelData levelData; // Reference to your LevelData ScriptableObject
     public Transform parentObj;
     public List<Vector3> transTarget;
     public PathCreator pathCreator;
@@ -36,11 +36,11 @@ public class LevelControler : SingletonMono<LevelControler>
             Debug.LogError("LevelData is not assigned.");
             return;
         }
-        for (int y = 0; y < levelData.waveData[wave].spawner[0].height; y++) // Duyệt theo chiều cao trước
+        for (int y = 0; y < levelData.levels[0].waveData[wave].spawner[0].height; y++) // Duyệt theo chiều cao trước
         {
-            for (int x = 0; x < levelData.waveData[wave].spawner[0].width; x++) // Duyệt theo chiều rộng sau
+            for (int x = 0; x < levelData.levels[0].waveData[wave].spawner[0].width; x++) // Duyệt theo chiều rộng sau
             {
-                if (levelData.waveData[wave].spawner[0].tiles[y * levelData.waveData[wave].spawner[0].width + x] == TileType.Active)
+                if (levelData.levels[0].waveData[wave].spawner[0].tiles[y * levelData.levels[0].waveData[wave].spawner[0].width + x] == TileType.Active)
                 {
                     // Instantiate a GameObject at the position of the active tile
                     Vector3 position = new Vector3(x, -y, 0) * 5f + parentObj.position;
@@ -73,11 +73,11 @@ public class LevelControler : SingletonMono<LevelControler>
     // di chuyen theo duong di 
     private void SpawnEnemyAtPoint(Vector3 pos)
     {
-        EnemyBase enemy = Instantiate(enemyBase, pathCreator.Line[levelData.waveData[wave].spawner[0].indexLine].List_Points[0], Quaternion.identity, parentObj);
+        EnemyBase enemy = Instantiate(enemyBase, pathCreator.Line[levelData.levels[0].waveData[wave].spawner[0].indexLine].List_Points[0], Quaternion.identity, parentObj);
         enemy.GetComponent<EnemyBase>();
         if (enemy != null)
         {
-            enemy.SetPathCreator(pathCreator, levelData.waveData[wave].spawner[0].indexLine);
+            enemy.SetPathCreator(pathCreator, levelData.levels[0].waveData[wave].spawner[0].indexLine);
             enemy.endPos = pos;
             lstEnemyInWave.Add(enemy);
 
