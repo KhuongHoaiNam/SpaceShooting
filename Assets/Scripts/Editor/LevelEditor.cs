@@ -1,102 +1,140 @@
-﻿    using UnityEditor;
-    using UnityEngine;
+﻿using UnityEditor;
+using UnityEditorInternal;
+using UnityEngine;
 
-    [CustomEditor(typeof(SpawnerData))]
-    public class LevelEditor : Editor
+[CustomEditor(typeof(SpawnerData))]
+public class LevelEditor : Editor
+{
+    private bool[,] grid;
+    private ReorderableList reorderableList;
+
+    private void OnEnable()
     {
-        private bool[,] grid;
+        // Tạo đối tượng ReorderableList cho listEnemySpawner
+        SerializedProperty listProperty = serializedObject.FindProperty("listEnemySpawner");
+        reorderableList = new ReorderableList(serializedObject, listProperty, true, true, true, true);
 
-        public override void OnInspectorGUI()
+        reorderableList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
         {
-            SpawnerData level = (SpawnerData)target;
+            SerializedProperty element = reorderableList.serializedProperty.GetArrayElementAtIndex(index);
+            EditorGUI.PropertyField(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight),
+                                    element, GUIContent.none);
+        };
 
-            // Điều chỉnh kích thước của lưới
-            level.width = EditorGUILayout.IntField("Width", level.width);
-            level.height = EditorGUILayout.IntField("Height", level.height);
-            level.indexLine = EditorGUILayout.IntField("index line",level.indexLine);
-            // Khởi tạo lưới nếu cần
-            if (grid == null || grid.GetLength(0) != level.width || grid.GetLength(1) != level.height)
+        reorderableList.drawHeaderCallback = (Rect rect) =>
+        {
+            EditorGUI.LabelField(rect, "Enemy Spawner List");
+        };
+    }
+
+    public override void OnInspectorGUI()
+    {
+        // Tạo đối tượng SerializedObject để quản lý các thay đổi trên SpawnerData
+        SerializedObject serializedObject = new SerializedObject(target);
+        SpawnerData level = (SpawnerData)target;
+
+        // Tạo các property cho SerializedObject
+        SerializedProperty widthProp = serializedObject.FindProperty("width");
+        SerializedProperty heightProp = serializedObject.FindProperty("height");
+        SerializedProperty indexLineProp = serializedObject.FindProperty("indexLine");
+
+        // Hiển thị các trường chỉnh sửa trong Inspector
+        EditorGUILayout.PropertyField(widthProp, new GUIContent("Width"));
+        EditorGUILayout.PropertyField(heightProp, new GUIContent("Height"));
+        EditorGUILayout.PropertyField(indexLineProp, new GUIContent("Index Line"));
+
+        // Hiển thị danh sách kẻ thù
+        reorderableList.DoLayoutList();
+
+        // Cập nhật nếu có thay đổi kích thước của lưới
+        if (grid == null || grid.GetLength(0) != level.width || grid.GetLength(1) != level.height)
+        {
+            InitializeGrid(level);
+        }
+
+        // Hiển thị lưới
+        for (int y = 0; y < level.height; y++)
+        {
+            EditorGUILayout.BeginHorizontal();
+            for (int x = 0; x < level.width; x++)
             {
-                grid = new bool[level.width, level.height];
+                // Tạo GUIStyle để điều chỉnh màu sắc
+                GUIStyle toggleStyle = new GUIStyle(GUI.skin.button);
+                toggleStyle.normal.background = MakeTex(2, 2, grid[x, y] ? Color.green : Color.gray);
 
-                // Khởi tạo trạng thái của lưới từ tiles của LevelData
-                if (level.tiles != null)
+                // Ghi nhận thay đổi của lưới
+                bool newValue = GUILayout.Toggle(grid[x, y], "", toggleStyle, GUILayout.Width(50), GUILayout.Height(50));
+
+                if (newValue != grid[x, y])
                 {
-                    for (int y = 0; y < level.height; y++)
-                    {
-                        for (int x = 0; x < level.width; x++)
-                        {
-                            grid[x, y] = level.tiles[y * level.width + x] == TileType.Active;
-                        }
-                    }
+                    Undo.RecordObject(level, "Toggle Grid State");
+                    grid[x, y] = newValue;
+
+                    EditorUtility.SetDirty(level);
                 }
             }
+            EditorGUILayout.EndHorizontal();
+        }
 
-            // Hiển thị lưới và cho phép chỉnh sửa
+        // Nút Save để lưu lưới vào asset
+        if (GUILayout.Button("Save"))
+        {
+            SaveGrid(level);
+        }
+
+        // Áp dụng các thay đổi cho SerializedObject
+        serializedObject.ApplyModifiedProperties();
+
+        // Buộc vẽ lại giao diện
+        Repaint();
+    }
+
+    private void InitializeGrid(SpawnerData level)
+    {
+        grid = new bool[level.width, level.height];
+
+        // Khởi tạo trạng thái của lưới từ tiles của SpawnerData
+        if (level.tiles != null)
+        {
             for (int y = 0; y < level.height; y++)
             {
-                EditorGUILayout.BeginHorizontal();
                 for (int x = 0; x < level.width; x++)
                 {
-                    // Tạo GUIStyle để điều chỉnh màu sắc
-                    GUIStyle toggleStyle = new GUIStyle(GUI.skin.button);
-                    toggleStyle.normal.background = MakeTex(2, 2, grid[x, y] ? Color.green : Color.gray);
-
-                    // Thay đổi trạng thái của ô vuông và cập nhật lại lưới
-                    grid[x, y] = GUILayout.Toggle(grid[x, y], "", toggleStyle, GUILayout.Width(50), GUILayout.Height(50));
+                    grid[x, y] = level.tiles[y * level.width + x] == TileType.Active;
                 }
-                EditorGUILayout.EndHorizontal();
             }
-
-            // Nút Save sẽ lưu trạng thái của lưới vào asset
-            if (GUILayout.Button("Save"))
-            {
-                // Cập nhật mảng tiles của LevelData
-                level.tiles = new TileType[level.width * level.height];
-                for (int y = 0; y < level.height; y++)
-                {
-                    for (int x = 0; x < level.width; x++)
-                    {
-                        level.tiles[y * level.width + x] = grid[x, y] ? TileType.Active : TileType.Inactive;
-                    }
-                }
-
-                // Đánh dấu LevelData là đã bị thay đổi để Unity lưu lại
-                EditorUtility.SetDirty(level);
-
-                // Thông báo đã lưu thành công
-                Debug.Log("Lưới đã được lưu vào asset.");
-            }
-
-
-
         }
-
-        // Hàm tạo texture màu cho GUIStyle
-        private Texture2D MakeTex(int width, int height, Color col)
+        else
         {
-            // Tạo một mảng các đối tượng Color với kích thước là width * height
-            // Mỗi phần tử trong mảng đại diện cho một pixel trong texture
-            Color[] pix = new Color[width * height];
+            // Nếu tiles chưa khởi tạo, tạo một mảng mới
+            level.tiles = new TileType[level.width * level.height];
+        }
+    }
 
-            // Vòng lặp này chạy qua tất cả các pixel và đặt màu cho từng pixel
-            for (int i = 0; i < pix.Length; i++)
+    private void SaveGrid(SpawnerData level)
+    {
+        level.tiles = new TileType[level.width * level.height];
+        for (int y = 0; y < level.height; y++)
+        {
+            for (int x = 0; x < level.width; x++)
             {
-                // Đặt màu cho mỗi pixel trong mảng là màu col được truyền vào
-                pix[i] = col;
+                level.tiles[y * level.width + x] = grid[x, y] ? TileType.Active : TileType.Inactive;
             }
-
-            // Tạo một đối tượng Texture2D mới với chiều rộng và chiều cao được chỉ định
-            Texture2D result = new Texture2D(width, height);
-
-            // Áp dụng mảng màu pix vào texture, tức là texture sẽ được điền đầy màu sắc từ mảng pix
-            result.SetPixels(pix);
-
-            // Áp dụng tất cả các thay đổi đã thực hiện trên texture (đặt màu cho các pixel)
-            result.Apply();
-
-            // Trả về đối tượng Texture2D đã được tạo và điền màu sắc, sẵn sàng để sử dụng
-            return result;
         }
 
+        EditorUtility.SetDirty(level);
+        AssetDatabase.SaveAssets();
+
+        Debug.Log("Grid has been saved to the asset.");
     }
+
+    private Texture2D MakeTex(int width, int height, Color col)
+    {
+        Color[] pix = new Color[width * height];
+        for (int i = 0; i < pix.Length; i++) pix[i] = col;
+        Texture2D result = new Texture2D(width, height);
+        result.SetPixels(pix);
+        result.Apply();
+        return result;
+    }
+}

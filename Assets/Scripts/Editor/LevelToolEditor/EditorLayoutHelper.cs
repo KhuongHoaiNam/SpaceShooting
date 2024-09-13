@@ -25,7 +25,7 @@ public static class EditorLayoutHelper
 
                 if (GUILayout.Button("Load Wave", GUILayout.Height(40)))
                 {
-                    totalLevelData.levels[selectedLevel].LoaderWavesDataResource(selectedLevel);
+                   // totalLevelData.levels[selectedLevel].LoaderWavesDataResource(selectedLevel);
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.Space();

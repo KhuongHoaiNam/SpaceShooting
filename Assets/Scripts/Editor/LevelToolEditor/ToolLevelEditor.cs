@@ -94,7 +94,7 @@ public class ToolLevelEditor : EditorWindow
 
                 if (GUILayout.Button("Load Wave", GUILayout.Height(40)))
                 {
-                    totalLevelData.levels[selectedLevel].LoaderWavesDataResource(selectedLevel);
+                    //totalLevelData.levels[selectedLevel].LoaderWavesDataResource(selectedLevel);
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.Space();
@@ -193,7 +193,7 @@ public class ToolLevelEditor : EditorWindow
             AssetDatabase.Refresh();
         }
 
-        totalLevelData.levels[selectedLevel].LoaderWavesDataResource(selectedLevel);
+     //   totalLevelData.levels[selectedLevel].LoaderWavesDataResource(selectedLevel);
     }
 
     private void CreateNewWave(int levelIndex)
@@ -210,7 +210,7 @@ public class ToolLevelEditor : EditorWindow
         AssetDatabase.Refresh();
 
         waves.Add(newWave);
-        totalLevelData.levels[levelIndex].LoaderWavesDataResource(levelIndex);
+     //   totalLevelData.levels[levelIndex].LoaderWavesDataResource(levelIndex);
     }
 
     private void DrawContent(int waveIndex)

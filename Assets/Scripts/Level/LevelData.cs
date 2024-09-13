@@ -7,10 +7,10 @@ using UnityEngine;
 public class LevelData : ScriptableObject
 {
     public List<WaveData> waveData = new List<WaveData>(); // Khởi tạo danh sách
-    public void LoaderWavesDataResource(int idLeves)
+   
+    public void LoaderAllWaveInLevel(int level)
     {
-        WaveData[] loadedLevels = Resources.LoadAll<WaveData>($"LevelData/LevelTotal/Level{idLeves}");
-
+        WaveData[] loadedLevels = Resources.LoadAll<WaveData>($"LevelData/LevelTotal/Level{level}");
         // Chuyển đổi mảng thành List và gán vào biến levels
         waveData = new List<WaveData>(loadedLevels);
 
@@ -18,7 +18,7 @@ public class LevelData : ScriptableObject
         for (int i = 0; i < loadedLevels.Length; i++)
         {
             // Đặt tên mới cho wave
-            string newName = $"Wave {i + 1}";
+            string newName = $"Wave_{i}_{level}";
 
             // Đổi tên của ScriptableObject trong bộ nhớ
             waveData[i].name = newName;
@@ -36,9 +36,31 @@ public class LevelData : ScriptableObject
             Debug.Log("Renamed and saved Wave: " + newName);
         }
     }
-    public void SetupName()
+    public void CreateWave(int level)
     {
-     
+        WaveData newWave =ScriptableObject.CreateInstance<WaveData>();
+        newWave.name = $"Wave_{waveData.Count+1}_{level}";
+        string assetPath = $"Assets/Resources/LevelData/LevelTotal/Level{level}/{newWave.name}.asset";
+
+        AssetDatabase.CreateAsset(newWave, assetPath);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        //   LoaderLevelsResource();
+        waveData.Add(newWave);
+    }
+
+    public void RemoveWave(int idLevel)
+    {
+        var levelDataToRemove = waveData[idLevel];
+        waveData.RemoveAt(idLevel);
+
+        string path = AssetDatabase.GetAssetPath(levelDataToRemove);
+        if (!string.IsNullOrEmpty(path))
+        {
+            AssetDatabase.DeleteAsset(path);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
     }
 }
 

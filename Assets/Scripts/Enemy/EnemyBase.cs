@@ -8,7 +8,7 @@ public abstract class EnemyBase : ShotCollisionDamage
 {
     public Istate currentState;
     public EnemyState enemystate;
-
+    public EnemyInfo EnemyInfo;
     // Các điểm đường dẫn
     private List<Vector3> pathPoints;
     private int currentPointIndex = 0;
