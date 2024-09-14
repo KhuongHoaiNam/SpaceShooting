@@ -35,6 +35,12 @@ public static class ViewWaveTool
             waveNav.LoaderAllWaveInLevel(ModelLevelTool.curentLevel);
 
         }
+        if (GUILayout.Button("Save", GUILayout.Height(30f), GUILayout.ExpandWidth(true)))
+        {
+            // Lưu tất cả thay đổi trong dữ liệu WaveData
+            AssetDatabase.SaveAssets();
+            Debug.Log("Changes saved.");
+        }
         EditorGUILayout.EndVertical();
     }
 

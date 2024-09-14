@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+﻿/*using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
@@ -138,3 +138,4 @@ public class LevelEditor : Editor
         return result;
     }
 }
+*/

@@ -6,7 +6,6 @@ using UnityEngine;
 public class EnemyDataConfigTable : ScriptableObject
 {
     public List<EnemyData> DataTable = new List<EnemyData>();
-
 }
 [Serializable]
 public class EnemyData

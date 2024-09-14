@@ -21,7 +21,7 @@ MonoBehaviour:
       damge: 0
       enemy: {fileID: 6331385346607342844, guid: 86a22d30e89c51e45bca7f9d49f32321, type: 3}
       iconAvt: {fileID: 21300000, guid: 9cf80513e36f3d3459d81ea09d3d08e0, type: 3}
-  - enemyId: 151
+  - enemyId: 152
     enemyIndexInfos:
     - level: 1
       hp: 0
@@ -29,7 +29,7 @@ MonoBehaviour:
       damge: 0
       enemy: {fileID: 6331385346607342844, guid: 4ce2fdc5eba83244592f4c0fb45907fb, type: 3}
       iconAvt: {fileID: 21300000, guid: a3a12d4d2710fda4ebf0b95b6956cfe9, type: 3}
-  - enemyId: 151
+  - enemyId: 153
     enemyIndexInfos:
     - level: 1
       hp: 0
@@ -37,7 +37,7 @@ MonoBehaviour:
       damge: 0
       enemy: {fileID: 6331385346607342844, guid: 8a0b9a37f4a51e14b8427645bfdd7778, type: 3}
       iconAvt: {fileID: 21300000, guid: a0f3cb74d79ec254c9841c520b9e70e0, type: 3}
-  - enemyId: 151
+  - enemyId: 154
     enemyIndexInfos:
     - level: 1
       hp: 0

@@ -6,11 +6,19 @@ using UnityEngine;
 [CreateAssetMenu (menuName = "SpawnerData", fileName = "Level/SpawnerData")]
 public class SpawnerData : ScriptableObject
 {
-    public int width;
     public int height;
+    public int width;
+    public int girdWidth;
+    public int girdHeight;
+    public Item[] WidthEnemy;
     public int indexLine;
+    public EnemyDataConfigTable EnemyDataConfigTable;
 
-    public List<InfoEnemySpawn> listEnemySpawner;
+    public void InitializeGrid()
+    {
+        WidthEnemy = new Item[girdWidth * girdHeight];
+    }
+
 
     public TileType[] tiles; // Mảng để lưu trữ trạng thái của từng ô trong lưới
 
@@ -22,10 +30,4 @@ public enum TileType
     Active    // Màu xanh lá
 }
 
-[Serializable]
-public class InfoEnemySpawn
-{
-    public EnemyInfo enemyInfo;
-    public int lineIndex;
-}
 
