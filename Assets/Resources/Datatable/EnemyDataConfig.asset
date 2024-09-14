@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c92a4fab49f33784bbf3a7c548f2252e, type: 3}
+  m_Name: EnemyDataConfig
+  m_EditorClassIdentifier: 
+  DataTable:
+  - enemyId: 151
+    enemyIndexInfos:
+    - level: 1
+      hp: 0
+      mp: 0
+      damge: 0
+      enemy: {fileID: 6331385346607342844, guid: 86a22d30e89c51e45bca7f9d49f32321, type: 3}
+      iconAvt: {fileID: 21300000, guid: 9cf80513e36f3d3459d81ea09d3d08e0, type: 3}
+  - enemyId: 151
+    enemyIndexInfos:
+    - level: 1
+      hp: 0
+      mp: 0
+      damge: 0
+      enemy: {fileID: 6331385346607342844, guid: 4ce2fdc5eba83244592f4c0fb45907fb, type: 3}
+      iconAvt: {fileID: 21300000, guid: a3a12d4d2710fda4ebf0b95b6956cfe9, type: 3}
+  - enemyId: 151
+    enemyIndexInfos:
+    - level: 1
+      hp: 0
+      mp: 0
+      damge: 0
+      enemy: {fileID: 6331385346607342844, guid: 8a0b9a37f4a51e14b8427645bfdd7778, type: 3}
+      iconAvt: {fileID: 21300000, guid: a0f3cb74d79ec254c9841c520b9e70e0, type: 3}
+  - enemyId: 151
+    enemyIndexInfos:
+    - level: 1
+      hp: 0
+      mp: 0
+      damge: 0
+      enemy: {fileID: 6331385346607342844, guid: c3047d551f7a4dc4eb505ba216137a26, type: 3}
+      iconAvt: {fileID: 21300000, guid: 42b6eba6625d08342a452ce4e11e5710, type: 3}
