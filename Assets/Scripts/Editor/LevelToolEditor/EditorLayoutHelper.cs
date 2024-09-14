@@ -92,8 +92,8 @@ public static class EditorLayoutHelper
             for (int i = 0; i < slotSpawner.Count; i++)
             {
                 GUILayout.Label($"Spawner {i} Details", EditorStyles.boldLabel);
-                slotSpawner[i].width = EditorGUILayout.IntField("Width", slotSpawner[i].width);
-                slotSpawner[i].height = EditorGUILayout.IntField("Height", slotSpawner[i].height);
+                slotSpawner[i].girdWidth = EditorGUILayout.IntField("Width", slotSpawner[i].girdWidth);
+                slotSpawner[i].girdHeight = EditorGUILayout.IntField("Height", slotSpawner[i].girdHeight);
                 slotSpawner[i].indexLine = EditorGUILayout.IntField("Index Line", slotSpawner[i].indexLine);
 
                 EditorGUILayout.Space();

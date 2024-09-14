@@ -69,18 +69,18 @@ public static class ViewSpawnerTool
 
     public static void InitializeGrid(int SpawnerId)
     {
-        if (grid == null || grid.GetLength(0) != ModelLevelTool.LoaderSpawner(SpawnerId).width || grid.GetLength(1) != ModelLevelTool.LoaderSpawner(SpawnerId).height)
+        if (grid == null || grid.GetLength(0) != ModelLevelTool.LoaderSpawner(SpawnerId).girdWidth || grid.GetLength(1) != ModelLevelTool.LoaderSpawner(SpawnerId).girdHeight)
         {
-            grid = new bool[ModelLevelTool.LoaderSpawner(SpawnerId).width, ModelLevelTool.LoaderSpawner(SpawnerId).height];
+            grid = new bool[ModelLevelTool.LoaderSpawner(SpawnerId).girdWidth, ModelLevelTool.LoaderSpawner(SpawnerId).girdHeight];
 
             // Khởi tạo trạng thái của lưới từ tiles của LevelData
             if (ModelLevelTool.LoaderSpawner(SpawnerId).tiles != null)
             {
-                for (int y = 0; y < ModelLevelTool.LoaderSpawner(SpawnerId).height; y++)
+                for (int y = 0; y < ModelLevelTool.LoaderSpawner(SpawnerId).girdHeight; y++)
                 {
-                    for (int x = 0; x < ModelLevelTool.LoaderSpawner(SpawnerId).width; x++)
+                    for (int x = 0; x < ModelLevelTool.LoaderSpawner(SpawnerId).girdWidth; x++)
                     {
-                        grid[x, y] = ModelLevelTool.LoaderSpawner(SpawnerId).tiles[y * ModelLevelTool.LoaderSpawner( SpawnerId).width + x] == TileType.Active;
+                        grid[x, y] = ModelLevelTool.LoaderSpawner(SpawnerId).tiles[y * ModelLevelTool.LoaderSpawner( SpawnerId).girdWidth + x] == TileType.Active;
                     }
                 }
             }
@@ -90,10 +90,10 @@ public static class ViewSpawnerTool
 
     public static void DrawGrid(int SpawnerId)
     {
-        for (int y = 0; y < ModelLevelTool.LoaderSpawner(SpawnerId).height; y++)
+        for (int y = 0; y < ModelLevelTool.LoaderSpawner(SpawnerId).girdHeight; y++)
         {
             EditorGUILayout.BeginHorizontal();
-            for (int x = 0; x < ModelLevelTool.LoaderSpawner(SpawnerId).width; x++)
+            for (int x = 0; x < ModelLevelTool.LoaderSpawner(SpawnerId).girdWidth; x++)
             {
                 // Tạo GUIStyle để điều chỉnh màu sắc
                 GUIStyle toggleStyle = new GUIStyle(GUI.skin.button);
@@ -109,12 +109,12 @@ public static class ViewSpawnerTool
 
     public static void SaveGrid(int SpawnerId)
     {
-        ModelLevelTool.LoaderSpawner(SpawnerId).tiles = new TileType[ModelLevelTool.LoaderSpawner(SpawnerId).width * ModelLevelTool.LoaderSpawner(SpawnerId).height];
-        for (int y = 0; y < ModelLevelTool.LoaderSpawner(SpawnerId).height; y++)
+        ModelLevelTool.LoaderSpawner(SpawnerId).tiles = new TileType[ModelLevelTool.LoaderSpawner(SpawnerId).girdWidth * ModelLevelTool.LoaderSpawner(SpawnerId).girdHeight];
+        for (int y = 0; y < ModelLevelTool.LoaderSpawner(SpawnerId).girdHeight; y++)
         {
-            for (int x = 0; x < ModelLevelTool.LoaderSpawner(SpawnerId).width; x++)
+            for (int x = 0; x < ModelLevelTool.LoaderSpawner(SpawnerId).girdWidth; x++)
             {
-                ModelLevelTool.LoaderSpawner(SpawnerId).tiles[y * ModelLevelTool.LoaderSpawner(SpawnerId).width + x] = grid[x, y] ? TileType.Active : TileType.Inactive;
+                ModelLevelTool.LoaderSpawner(SpawnerId).tiles[y * ModelLevelTool.LoaderSpawner(SpawnerId).girdWidth + x] = grid[x, y] ? TileType.Active : TileType.Inactive;
             }
         }
 
@@ -131,9 +131,9 @@ public static class ViewSpawnerTool
         
         GUILayout.FlexibleSpace();
         // Điều chỉnh kích thước của lưới
-        thisSpawner.width = EditorGUILayout.IntField("Width", thisSpawner.width);
+        thisSpawner.girdWidth = EditorGUILayout.IntField("Width", thisSpawner.girdWidth);
         GUILayout.Space(10f);
-        thisSpawner.height = EditorGUILayout.IntField("Height", thisSpawner.height);
+        thisSpawner.girdHeight = EditorGUILayout.IntField("Height", thisSpawner.girdHeight);
         GUILayout.Space(10f);
         thisSpawner.indexLine = EditorGUILayout.IntField("Index Line", thisSpawner.indexLine);
 

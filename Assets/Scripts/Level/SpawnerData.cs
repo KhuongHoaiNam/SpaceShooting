@@ -6,8 +6,7 @@ using UnityEngine;
 [CreateAssetMenu (menuName = "SpawnerData", fileName = "Level/SpawnerData")]
 public class SpawnerData : ScriptableObject
 {
-    public int height;
-    public int width;
+
     public int girdWidth;
     public int girdHeight;
     public Item[] WidthEnemy;

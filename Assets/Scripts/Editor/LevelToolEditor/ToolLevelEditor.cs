@@ -230,14 +230,14 @@ public class ToolLevelEditor : EditorWindow
             {
                 // Thêm chi tiết hoặc các nút chức năng tại đây
                 GUILayout.Label($"Spawner {waveIndex} Details", EditorStyles.boldLabel);
-                slotSpawner[i].width = EditorGUILayout.IntField("Width", slotSpawner[i].width);
-                slotSpawner[i].height = EditorGUILayout.IntField("Height", slotSpawner[i].height);
+                slotSpawner[i].girdWidth = EditorGUILayout.IntField("Width", slotSpawner[i].girdWidth);
+                slotSpawner[i].girdHeight = EditorGUILayout.IntField("Height", slotSpawner[i].girdHeight);
                 slotSpawner[i].indexLine = EditorGUILayout.IntField("index line", slotSpawner[i].indexLine);
                 InitializeGrid(slotSpawner[i]);
-                for (int y = 0; y < slotSpawner[i].height; y++)
+                for (int y = 0; y < slotSpawner[i].girdHeight; y++)
                 {
                     EditorGUILayout.BeginHorizontal();
-                    for (int x = 0; x < slotSpawner[i].width; x++)
+                    for (int x = 0; x < slotSpawner[i].girdWidth; x++)
                     {
                         // Tạo GUIStyle để điều chỉnh màu sắc
                         GUIStyle toggleStyle = new GUIStyle(GUI.skin.button);
@@ -250,23 +250,23 @@ public class ToolLevelEditor : EditorWindow
                 }
 
                 // Cập nhật lại dữ liệu của slotSpawner
-                for (int y = 0; y < slotSpawner[i].height; y++)
+                for (int y = 0; y < slotSpawner[i].girdHeight; y++)
                 {
-                    for (int x = 0; x < slotSpawner[i].width; x++)
+                    for (int x = 0; x < slotSpawner[i].girdWidth; x++)
                     {
                         // Lưu giá trị từ grid vào slotSpawner.tiles
-                        slotSpawner[i].tiles[y * slotSpawner[i].width + x] = grid[x, y] ? TileType.Active : TileType.Inactive;
+                        slotSpawner[i].tiles[y * slotSpawner[i].girdWidth + x] = grid[x, y] ? TileType.Active : TileType.Inactive;
                     }
                 }
                 if (GUILayout.Button("Save Grid"))
                 {
                     // Cập nhật mảng tiles của SpawnerData
-                    slotSpawner[i].tiles = new TileType[slotSpawner[i].width * slotSpawner[i].height];
-                    for (int y = 0; y < slotSpawner[i].height; y++)
+                    slotSpawner[i].tiles = new TileType[slotSpawner[i].girdWidth * slotSpawner[i].girdHeight];
+                    for (int y = 0; y < slotSpawner[i].girdHeight; y++)
                     {
-                        for (int x = 0; x < slotSpawner[i].width; x++)
+                        for (int x = 0; x < slotSpawner[i].girdWidth; x++)
                         {
-                            slotSpawner[i].tiles[y * slotSpawner[i].width + x] = grid[x, y] ? TileType.Active : TileType.Inactive;
+                            slotSpawner[i].tiles[y * slotSpawner[i].girdWidth + x] = grid[x, y] ? TileType.Active : TileType.Inactive;
                         }
                     }
 
@@ -297,18 +297,18 @@ public class ToolLevelEditor : EditorWindow
     private void InitializeGrid(SpawnerData spawner)
     {
         // Kiểm tra và khởi tạo lưới nếu cần
-        if (grid == null || grid.GetLength(0) != spawner.width || grid.GetLength(1) != spawner.height)
+        if (grid == null || grid.GetLength(0) != spawner.girdWidth || grid.GetLength(1) != spawner.girdHeight)
         {
-            grid = new bool[spawner.width, spawner.height];
+            grid = new bool[spawner.girdWidth, spawner.girdHeight];
 
             // Khởi tạo trạng thái của lưới từ tiles của SpawnerData
             if (spawner.tiles != null)
             {
-                for (int y = 0; y < spawner.height; y++)
+                for (int y = 0; y < spawner.girdHeight; y++)
                 {
-                    for (int x = 0; x < spawner.width; x++)
+                    for (int x = 0; x < spawner.girdWidth; x++)
                     {
-                        grid[x, y] = spawner.tiles[y * spawner.width + x] == TileType.Active;
+                        grid[x, y] = spawner.tiles[y * spawner.girdWidth + x] == TileType.Active;
                     }
                 }
             }

@@ -36,11 +36,11 @@ public class LevelControler : SingletonMono<LevelControler>
             Debug.LogError("LevelData is not assigned.");
             return;
         }
-        for (int y = 0; y < levelData.levels[0].waveData[wave].spawner[0].height; y++) // Duyệt theo chiều cao trước
+        for (int y = 0; y < levelData.levels[0].waveData[wave].spawner[0].girdHeight; y++) // Duyệt theo chiều cao trước
         {
-            for (int x = 0; x < levelData.levels[0].waveData[wave].spawner[0].width; x++) // Duyệt theo chiều rộng sau
+            for (int x = 0; x < levelData.levels[0].waveData[wave].spawner[0].girdWidth; x++) // Duyệt theo chiều rộng sau
             {
-                if (levelData.levels[0].waveData[wave].spawner[0].tiles[y * levelData.levels[0].waveData[wave].spawner[0].width + x] == TileType.Active)
+                if (levelData.levels[0].waveData[wave].spawner[0].tiles[y * levelData.levels[0].waveData[wave].spawner[0].girdWidth + x] == TileType.Active)
                 {
                     // Instantiate a GameObject at the position of the active tile
                     Vector3 position = new Vector3(x, -y, 0) * 5f + parentObj.position;

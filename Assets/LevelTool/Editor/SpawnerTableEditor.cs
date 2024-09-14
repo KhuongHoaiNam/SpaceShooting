@@ -13,7 +13,7 @@ public class SpawnerTableEditor : Editor
         spawner = (SpawnerData)target;
 
         // Load the SpriteManager asset (make sure you assign it in the Inspector)
-        spawner.EnemyDataConfigTable = AssetDatabase.LoadAssetAtPath<EnemyDataConfigTable>("Assets/SpriteManager.asset");
+        spawner.EnemyDataConfigTable = AssetDatabase.LoadAssetAtPath<EnemyDataConfigTable>("Assets/EnemyDataConfig.asset");
 
         if (spawner.WidthEnemy == null || spawner.WidthEnemy.Length != spawner.girdWidth * spawner.girdHeight)
         {
