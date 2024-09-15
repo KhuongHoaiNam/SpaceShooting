@@ -336,17 +336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e699fdaa32f0442ab2c5c4c5dd4380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataEnemyConfigs:
-  - enemyInfor: 1
-    prefebEnemy: {fileID: 2333795611770170954, guid: 86a22d30e89c51e45bca7f9d49f32321, type: 3}
-  - enemyInfor: 2
-    prefebEnemy: {fileID: 2333795611770170954, guid: 8a0b9a37f4a51e14b8427645bfdd7778, type: 3}
-  - enemyInfor: 3
-    prefebEnemy: {fileID: 2333795611770170954, guid: 8a0b9a37f4a51e14b8427645bfdd7778, type: 3}
-  - enemyInfor: 4
-    prefebEnemy: {fileID: 2333795611770170954, guid: c3047d551f7a4dc4eb505ba216137a26, type: 3}
-  - enemyInfor: 5
-    prefebEnemy: {fileID: 2333795611770170954, guid: 99f57355154b9284ca4b383681278dff, type: 3}
 --- !u!1 &1599738708
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,29 +1388,20 @@ MonoBehaviour:
   levelData: {fileID: 11400000, guid: 1c6969505ff45aa498f4ff0eee96fbec, type: 2}
   parentObj: {fileID: 3971433396210159327}
   transTarget:
-  - {x: -11.7, y: 33, z: 0}
-  - {x: -6.7, y: 33, z: 0}
-  - {x: -1.6999998, y: 33, z: 0}
-  - {x: 3.3000002, y: 33, z: 0}
-  - {x: 8.3, y: 33, z: 0}
-  - {x: -11.7, y: 28, z: 0}
-  - {x: 8.3, y: 28, z: 0}
-  - {x: -11.7, y: 23, z: 0}
-  - {x: -1.6999998, y: 23, z: 0}
-  - {x: 8.3, y: 23, z: 0}
-  - {x: -11.7, y: 18, z: 0}
-  - {x: 8.3, y: 18, z: 0}
-  - {x: -11.7, y: 13, z: 0}
-  - {x: -6.7, y: 13, z: 0}
-  - {x: -1.6999998, y: 13, z: 0}
-  - {x: 3.3000002, y: 13, z: 0}
-  - {x: 8.3, y: 13, z: 0}
+  - {x: -2.2616339, y: 30.294785, z: 0}
+  - {x: 2.7383661, y: 30.294785, z: 0}
+  - {x: 7.738366, y: 30.294785, z: 0}
+  - {x: 12.738366, y: 30.294785, z: 0}
+  - {x: 17.738365, y: 30.294785, z: 0}
+  - {x: 7.738366, y: 25.294785, z: 0}
+  - {x: 7.738366, y: 20.294785, z: 0}
   pathCreator: {fileID: 2674002631212079199}
-  enemyBase: {fileID: 6331385346607342844, guid: 3c975284277957242a74d11704870357, type: 3}
+  enemyBases: {fileID: 0}
   wave: 0
   spawnInterval: 0.2
   lstEnemyInWave: []
   checkWave: 1
+  enemyDataConfigTable: {fileID: 11400000, guid: 1e4ab25efeead4840be8e98803955ecb, type: 2}
 --- !u!1 &4288268846647060694
 GameObject:
   m_ObjectHideFlags: 0
@@ -2241,8 +2221,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 42314384564084260}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.7, y: -3.9, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.6999998, y: -3.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

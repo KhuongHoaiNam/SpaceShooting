@@ -41,3 +41,14 @@ public enum SpaceShipInfo
 {
     none,
 }
+public enum LineMoving
+{
+    none,
+    Line1, 
+    Line2,
+    Line3,
+    Line4,
+    Line5,
+    Line6,
+
+}

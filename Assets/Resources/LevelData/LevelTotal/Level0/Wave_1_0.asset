@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: Wave_1_0
   m_EditorClassIdentifier: 
   spawner:
-  - {fileID: 11400000, guid: a2f2030b48dc99446831ee2ac2da7e60, type: 2}
-  - {fileID: 11400000, guid: 18fe21cc0298bf045a3753fb3c8a4058, type: 2}
+  - {fileID: 11400000, guid: 3a0bcab496ae4e34bb437ac599e68348, type: 2}

@@ -11,7 +11,8 @@ public class EnemyDataConfigTable : ScriptableObject
 public class EnemyData
 {
     public Item enemyId;
-    public List<EnemyIndexInfo> enemyIndexInfos;   
+    public List<EnemyIndexInfo> enemyIndexInfos;
+
 }
 [Serializable]
 public class EnemyIndexInfo
@@ -20,7 +21,8 @@ public class EnemyIndexInfo
     public float hp;
     public float mp;
     public float damge;
-    public EnemyBase enemy;
     public Sprite iconAvt;
+    public EnemyBase enemy;
+
 
 }
