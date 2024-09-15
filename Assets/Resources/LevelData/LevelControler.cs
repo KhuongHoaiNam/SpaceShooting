@@ -68,11 +68,11 @@ public class LevelControler : SingletonMono<LevelControler>
         // Sinh ra enemy và bắt đầu di chuyển
          SetUpTarget();
         yield return new WaitForSeconds(spawnInterval);
-        for (int i = 0; i < lstEnemyInWave.Count; i++)
+        for (int i = 0; i < transTarget.Count; i++)
         {
-            for(int j = 0; j < transTarget.Count; j++)
+            for(int j = 0; j < lstEnemyInWave.Count; j++)
             {
-                lstEnemyInWave[i].endPos = transTarget[j];
+                lstEnemyInWave[i].endPos = transTarget[i];
 
             }
         }
