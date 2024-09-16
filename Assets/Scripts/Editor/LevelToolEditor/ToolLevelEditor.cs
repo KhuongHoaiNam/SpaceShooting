@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ToolLevelEditor : EditorWindow
 {
-    public TotalLevelData totalLevelData;
+ /*   public TotalLevelData totalLevelData;
     private int selectedLevel = 0;
     private GUIStyle headerStyle, navStyle, waveStyle, contentStyle;
     private Vector2 scrollPosition;
@@ -318,8 +318,8 @@ public class ToolLevelEditor : EditorWindow
     private void DrawEditableGrid(SpawnerData spawner)
     {
 
-        /* // Nút Save sẽ lưu trạng thái của lưới vào asset
-        */
+        *//* // Nút Save sẽ lưu trạng thái của lưới vào asset
+        *//*
     }
     // Hàm tạo texture màu cho GUIStyle
     private Texture2D MakeTex(int width, int height, Color col)
@@ -345,5 +345,5 @@ public class ToolLevelEditor : EditorWindow
         result.SetPixels(pixels);
         result.Apply();
         return result;
-    }
+    }*/
 }

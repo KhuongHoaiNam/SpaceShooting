@@ -1396,7 +1396,6 @@ MonoBehaviour:
   - {x: 7.738366, y: 25.294785, z: 0}
   - {x: 7.738366, y: 20.294785, z: 0}
   pathCreator: {fileID: 2674002631212079199}
-  enemyBases: {fileID: 0}
   wave: 0
   spawnInterval: 0.2
   lstEnemyInWave: []

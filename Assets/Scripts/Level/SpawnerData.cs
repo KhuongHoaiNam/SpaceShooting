@@ -3,30 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu (menuName = "SpawnerData", fileName = "Level/SpawnerData")]
+[CreateAssetMenu(menuName = "SpawnerData", fileName = "Level/SpawnerData")]
 public class SpawnerData : ScriptableObject
 {
-
-    public int girdWidth;
-    public int girdHeight;
-    public Item[] WidthEnemy;
-    public int indexLine;
+    public int gridWidth;
+    public int gridHeight;
+    public EnemyIndex[] WidthEnemy;
     public EnemyDataConfigTable EnemyDataConfigTable;
 
+    // Initializes the grid with the correct size
     public void InitializeGrid()
     {
-        WidthEnemy = new Item[girdWidth * girdHeight];
+        WidthEnemy = new EnemyIndex[gridWidth * gridHeight];
     }
-
-
-    public TileType[] tiles; // Mảng để lưu trữ trạng thái của từng ô trong lưới
-
-
 }
-public enum TileType
+
+[Serializable]
+public class EnemyIndex
 {
-    Inactive, // Màu xám
-    Active    // Màu xanh lá
+    public Item item;
+    public int indexLine;
 }
 
 

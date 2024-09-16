@@ -18,9 +18,6 @@ public class LevelControler : SingletonMono<LevelControler>
     // Đối tượng PathCreator để tạo ra đường đi cho enemy
     public PathCreator pathCreator;
 
-    // Prefab cơ bản của enemy sẽ được sử dụng để sinh ra các enemy
-    public EnemyBase enemyBasePrefab;
-
     // Chỉ số wave hiện tại
     public int wave;
 
@@ -59,14 +56,14 @@ public class LevelControler : SingletonMono<LevelControler>
         var currentSpawner = levelData.levels[0].waveData[wave].spawner[0];
 
         // Duyệt qua lưới để tạo các vị trí spawn
-        for (int y = 0; y < currentSpawner.girdHeight; y++)
+        for (int y = 0; y < currentSpawner.gridHeight; y++)
         {
-            for (int x = 0; x < currentSpawner.girdWidth; x++)
+            for (int x = 0; x < currentSpawner.gridWidth; x++)
             {
-                int index = y * currentSpawner.girdWidth + x;
+                int index = y * currentSpawner.gridWidth + x;
 
                 // Nếu ô hiện tại không phải là Item.none, tức là có enemy cần spawn
-                if (currentSpawner.WidthEnemy[index] != Item.none)
+                if (currentSpawner.WidthEnemy[index].item != Item.none)
                 {
                     // Tính toán vị trí spawn của enemy
                     Vector3 position = new Vector3(x, -y, 0) * 5f + parentObj.position;
@@ -90,7 +87,7 @@ public class LevelControler : SingletonMono<LevelControler>
         for (int i = 0; i < lstEnemyInWave.Count; i++)
         {
             lstEnemyInWave[i].endPos = transTarget[i]; // Đặt vị trí đích cho mỗi enemy
-            lstEnemyInWave[i].SetPathCreator(pathCreator, levelData.levels[0].waveData[wave].spawner[0].indexLine); // Đặt đường đi cho enemy
+            lstEnemyInWave[i].SetPathCreator(pathCreator, levelData.levels[0].waveData[wave].spawner[0].WidthEnemy[i].indexLine); // Đặt đường đi cho enemy
             yield return new WaitForSeconds(spawnInterval); // Chờ trước khi sinh enemy tiếp theo
         }
     }
@@ -102,14 +99,14 @@ public class LevelControler : SingletonMono<LevelControler>
         int index = 0;
 
         // Duyệt qua lưới (grid) để tìm các vị trí có enemy cần spawn
-        for (int y = 0; y < spawner.girdHeight; y++)
+        for (int y = 0; y < spawner.gridHeight; y++)
         {
-            for (int x = 0; x < spawner.girdWidth; x++)
+            for (int x = 0; x < spawner.gridWidth; x++)
             {
                 // Nếu ô hiện tại có enemy (không phải Item.none), tạo enemy ở vị trí đó
-                if (spawner.WidthEnemy[index] != Item.none)
+                if (spawner.WidthEnemy[index].item != Item.none)
                 {
-                    CreateEnemy(spawner.WidthEnemy[index]); // Gọi hàm tạo enemy
+                    CreateEnemy(spawner.WidthEnemy[index].item, index); // Gọi hàm tạo enemy
                 }
                 index++;
             }
@@ -117,11 +114,11 @@ public class LevelControler : SingletonMono<LevelControler>
     }
 
     // Hàm để sinh enemy dựa trên ID của enemy (Item)
-    private void CreateEnemy(Item idEnemy)
+    private void CreateEnemy(Item idEnemy, int line)
     {
         // Tìm kiếm dữ liệu của enemy trong bảng dữ liệu cấu hình dựa trên ID
         var enemyData = enemyDataConfigTable.DataTable.FirstOrDefault(e => e.enemyId == idEnemy);
-
+        var pointIndex = pathCreator.Line[levelData.levels[0].waveData[wave].spawner[0].WidthEnemy[line].indexLine].List_Points;
         // Nếu không tìm thấy dữ liệu enemy hoặc không có prefab cho enemy, in cảnh báo
         if (enemyData == null || enemyData.enemyIndexInfos[0].enemy == null)
         {
@@ -131,8 +128,8 @@ public class LevelControler : SingletonMono<LevelControler>
 
         // Tạo một instance của enemy tại vị trí bắt đầu của đường đi (path)
         EnemyBase newEnemy = Instantiate(
-            enemyData.enemyIndexInfos[0].enemy,
-            pathCreator.Line[levelData.levels[0].waveData[wave].spawner[0].indexLine].List_Points[0],
+            enemyData.enemyIndexInfos[0].enemy, pointIndex[0]
+           ,
             Quaternion.identity,
             parentObj
         );

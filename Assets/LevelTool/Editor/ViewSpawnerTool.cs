@@ -6,7 +6,7 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 public static class ViewSpawnerTool 
-{
+{/*
     private static GUIStyle viewSpaner;
     private static Vector2 positiones;
     private static bool[,] grid;
@@ -175,5 +175,5 @@ public static class ViewSpawnerTool
         GUILayout.EndHorizontal();
 
         GUILayout.FlexibleSpace();
-    }
+    }*/
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class EditorLayoutHelper
 {
-    public static void DrawNav(TotalLevelData totalLevelData, ref int selectedLevel, ref int idWaveSpawner, System.Action saveData, System.Action<int> removeLevel)
+  /*  public static void DrawNav(TotalLevelData totalLevelData, ref int selectedLevel, ref int idWaveSpawner, System.Action saveData, System.Action<int> removeLevel)
     {
         EditorGUILayout.BeginVertical(EditorHelper.CreateStyle(15, FontStyle.Normal, Color.red, TextAnchor.MiddleCenter), GUILayout.Width(200), GUILayout.Height(500));
         GUILayout.Label("Level", EditorHelper.CreateStyle(15, FontStyle.Normal, Color.red, TextAnchor.MiddleCenter), GUILayout.Height(40));
@@ -121,5 +121,5 @@ public static class EditorLayoutHelper
     private static void SaveSpawnerGrid(SpawnerData spawner)
     {
         // Thêm logic lưu trữ grid tại đây
-    }
+    }*/
 }

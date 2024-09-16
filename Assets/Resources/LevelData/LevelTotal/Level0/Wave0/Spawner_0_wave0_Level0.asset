@@ -12,9 +12,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71c80f427118ee42889c503921ad766, type: 3}
   m_Name: Spawner_0_wave0_Level0
   m_EditorClassIdentifier: 
-  girdWidth: 5
-  girdHeight: 6
-  WidthEnemy: 000000000000000098000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  indexLine: 0
+  gridWidth: 5
+  gridHeight: 5
+  WidthEnemy:
+  - item: 152
+    indexLine: 1
+  - item: 151
+    indexLine: 0
+  - item: 154
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 151
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 0
+    indexLine: 0
   EnemyDataConfigTable: {fileID: 11400000, guid: 1e4ab25efeead4840be8e98803955ecb, type: 2}
-  tiles: 000000000000000000000000010000000000000000000000010000000000000000000000010000000100000001000000010000000000000001000000010000000100000001000000010000000000000001000000010000000100000001000000

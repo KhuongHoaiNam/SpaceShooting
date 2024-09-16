@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ToolKitLevel : EditorWindow
 {
-    public GUIStyle headerStyle;
+/*    public GUIStyle headerStyle;
     [MenuItem("Window/Level Tool")]
     public static void ShowWindow()
     {
@@ -46,6 +46,6 @@ public class ToolKitLevel : EditorWindow
     {
         headerStyle = GUIViewCotroller.CreateStyle(20, FontStyle.Bold, Color.magenta, TextAnchor.MiddleCenter);
     }
-
+*/
    
 }
