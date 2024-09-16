@@ -2,227 +2,173 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class LevelControler : SingletonMono<LevelControler>
 {
-    public TotalLevelData levelData; // Reference to your LevelData ScriptableObject
+    // Tham chiếu đến TotalLevelData, đây là một ScriptableObject chứa thông tin về các level
+    public TotalLevelData levelData;
+
+    // Đối tượng cha để chứa các enemy được sinh ra
     public Transform parentObj;
+
+    // Danh sách các vị trí target để enemy di chuyển đến
     public List<Vector3> transTarget;
+
+    // Đối tượng PathCreator để tạo ra đường đi cho enemy
     public PathCreator pathCreator;
-    public EnemyBase enemyBases;
 
-    // Đối tượng PathCreator để lấy danh sách các điểm
+    // Prefab cơ bản của enemy sẽ được sử dụng để sinh ra các enemy
+    public EnemyBase enemyBasePrefab;
 
-    // Thời gian giữa các lần sinh ra enemy
+    // Chỉ số wave hiện tại
     public int wave;
+
+    // Khoảng thời gian giữa mỗi lần sinh enemy
     [SerializeField] private float spawnInterval;
+
+    // Danh sách lưu trữ các enemy đã sinh ra trong mỗi wave
     public List<EnemyBase> lstEnemyInWave;
+
+    // Biến kiểm tra xem wave đã kết thúc hay chưa
     public bool checkWave;
+
+    // Bảng dữ liệu cấu hình enemy, chứa thông tin về các loại enemy
     public EnemyDataConfigTable enemyDataConfigTable;
+
+    // Hàm Start được gọi khi bắt đầu game
     void Start()
     {
-        GenerateLevel();
-        StartCoroutine(SpawnEnemies());
+        GenerateLevel(); // Gọi hàm để khởi tạo level
+        StartCoroutine(SpawnEnemies()); // Bắt đầu quá trình sinh enemy
     }
 
+    // Hàm để tạo các vị trí spawn enemy cho level hiện tại
     public void GenerateLevel()
     {
-        transTarget.Clear();
+        transTarget.Clear(); // Xóa các target cũ trước khi tạo mới
 
-        // Ensure the LevelData is set
+        // Kiểm tra xem dữ liệu level đã được thiết lập chưa
         if (levelData == null)
         {
-            Debug.LogError("LevelData is not assigned.");
+            Debug.LogError("LevelData is not assigned."); // Thông báo lỗi nếu chưa có dữ liệu
             return;
         }
-        for (int y = 0; y < levelData.levels[0].waveData[wave].spawner[0].girdHeight; y++) // Duyệt theo chiều cao trước
+
+        // Lấy thông tin spawner của wave hiện tại
+        var currentSpawner = levelData.levels[0].waveData[wave].spawner[0];
+
+        // Duyệt qua lưới để tạo các vị trí spawn
+        for (int y = 0; y < currentSpawner.girdHeight; y++)
         {
-            for (int x = 0; x < levelData.levels[0].waveData[wave].spawner[0].girdWidth; x++) // Duyệt theo chiều rộng sau
+            for (int x = 0; x < currentSpawner.girdWidth; x++)
             {
-                if (levelData.levels[0].waveData[wave].spawner[0].WidthEnemy[y * levelData.levels[0].waveData[wave].spawner[0].girdWidth + x] != Item.none)
+                int index = y * currentSpawner.girdWidth + x;
+
+                // Nếu ô hiện tại không phải là Item.none, tức là có enemy cần spawn
+                if (currentSpawner.WidthEnemy[index] != Item.none)
                 {
-                    // Instantiate a GameObject at the position of the active tile
+                    // Tính toán vị trí spawn của enemy
                     Vector3 position = new Vector3(x, -y, 0) * 5f + parentObj.position;
-                    //Instantiate(enemyBase, position, Quaternion.identity, parentObj);
-                   
+
+                    // Thêm vị trí này vào danh sách transTarget
                     transTarget.Add(position);
                 }
             }
         }
-        checkWave = true;
+
+        checkWave = true; // Đặt cờ báo hiệu level đã được tạo
     }
 
-
- 
+    // Coroutine để sinh enemy theo thời gian
     private IEnumerator SpawnEnemies()
     {
-        /*if (pathCreator == null || enemyBases == null)
+        SetUpTarget(); // Thiết lập target cho mỗi enemy
+        yield return new WaitForSeconds(spawnInterval); // Chờ khoảng thời gian giữa mỗi lần sinh
+
+        // Lặp qua danh sách enemy để đặt các vị trí kết thúc (endPos) và đường di chuyển cho chúng
+        for (int i = 0; i < lstEnemyInWave.Count; i++)
         {
-            Debug.LogError("PathCreator or EnemyPrefab is not assigned.");
-            yield break;
+            lstEnemyInWave[i].endPos = transTarget[i]; // Đặt vị trí đích cho mỗi enemy
+            lstEnemyInWave[i].SetPathCreator(pathCreator, levelData.levels[0].waveData[wave].spawner[0].indexLine); // Đặt đường đi cho enemy
+            yield return new WaitForSeconds(spawnInterval); // Chờ trước khi sinh enemy tiếp theo
         }
-*/
-        // Sinh ra enemy và bắt đầu di chuyển
-         SetUpTarget();
-        yield return new WaitForSeconds(spawnInterval);
-        for (int i = 0; i < transTarget.Count; i++)
-        {
-            for(int j = 0; j < lstEnemyInWave.Count; j++)
-            {
-                lstEnemyInWave[i].endPos = transTarget[i];
-
-            }
-        }
-
-    }
-    // di chuyen theo duong di 
-    private void SpawnEnemyAtPoint(Vector3 pos)
-    {
-        // Lấy danh sách enemy từ level và wave cụ thể
-        var enemyDatas = levelData.levels[0].waveData[wave].spawner[0].WidthEnemy;
-        var enemyspawner = enemyDataConfigTable.DataTable;
-
-        EnemyBase enemy = Instantiate(enemyBases, pathCreator.Line[levelData.levels[0].waveData[wave].spawner[0].indexLine].List_Points[0], Quaternion.identity, parentObj);
-
-        enemy.GetComponent<EnemyBase>();
-        if (enemy != null)
-        {
-            enemy.SetPathCreator(pathCreator, levelData.levels[0].waveData[wave].spawner[0].indexLine);
-            enemy.endPos = pos;
-            lstEnemyInWave.Add(enemy);
-
-            // enemy.MovingEndPos(pos);
-        }
-        else
-        {
-            Debug.LogError("EnemyPrefab must have an EnemyMovement script.");
-        }
-      /*  for (int i = 0; i < enemyDatas.Length; i++)
-        {
-            if (enemyDatas[i] != Item.none) {
-                var enemyData = enemyDataConfigTable.DataTable.FirstOrDefault(e => e.enemyId == enemyDatas[i]);
-
-                EnemyBase enemy = Instantiate(enemyData.enemyIndexInfos[0].enemy, pathCreator.Line[levelData.levels[0].waveData[wave].spawner[0].indexLine].List_Points[0], Quaternion.identity, parentObj);
-
-                enemy.GetComponent<EnemyBase>();
-                if (enemy != null)
-                {
-                    enemy.SetPathCreator(pathCreator, levelData.levels[0].waveData[wave].spawner[0].indexLine);
-                    enemy.endPos = pos;
-                    lstEnemyInWave.Add(enemy);
-
-                    // enemy.MovingEndPos(pos);
-                }
-                else
-                {
-                    Debug.LogError("EnemyPrefab must have an EnemyMovement script.");
-                }
-            }
-        }*/
-        /*
-                for (int i =0; i < enemyData.Length; i++)
-                {
-                    if (enemyData[i] != Item.none)
-                    {
-
-                        EnemyBase enemy= Instantiate(enemyspawner[x].enemyIndexInfos[0].enemy, pathCreator.Line[levelData.levels[0].waveData[wave].spawner[0].indexLine].List_Points[0], Quaternion.identity, parentObj);
-                            enemy.GetComponent<EnemyBase>();
-                            if (enemy != null)
-                            {
-                                enemy.SetPathCreator(pathCreator, levelData.levels[0].waveData[wave].spawner[0].indexLine);
-                                enemy.endPos = pos;
-                                lstEnemyInWave.Add(enemy);
-
-                                // enemy.MovingEndPos(pos);
-                            }
-                            else
-                            {
-                                Debug.LogError("EnemyPrefab must have an EnemyMovement script.");
-                            }
-
-                    }
-                }*/
-
-
-        // EnemyBase enemy = Instantiate(enemyBase, pathCreator.Line[levelData.levels[0].waveData[wave].spawner[0].indexLine].List_Points[0], Quaternion.identity, parentObj);
-
     }
 
+    // Hàm thiết lập target cho từng enemy
     public void SetUpTarget()
     {
-        // Kiểm tra xem số lượng vị trí spawn có khớp với số lượng lưới không
         var spawner = levelData.levels[0].waveData[wave].spawner[0];
-
         int index = 0;
 
-        // Duyệt qua từng ô trong lưới (grid)
+        // Duyệt qua lưới (grid) để tìm các vị trí có enemy cần spawn
         for (int y = 0; y < spawner.girdHeight; y++)
         {
             for (int x = 0; x < spawner.girdWidth; x++)
             {
-                // Lấy enemy info tại vị trí (x, y) trong lưới
-                Item currentEnemy = spawner.WidthEnemy[index];
-
-                // Kiểm tra nếu enemy info là "none", thì bỏ qua (không tạo enemy)
-                if (currentEnemy != Item.none)
+                // Nếu ô hiện tại có enemy (không phải Item.none), tạo enemy ở vị trí đó
+                if (spawner.WidthEnemy[index] != Item.none)
                 {
-
-                   CreatEnemy(currentEnemy);
-
+                    CreateEnemy(spawner.WidthEnemy[index]); // Gọi hàm tạo enemy
                 }
-
-                index++;  // Tăng chỉ số index để duyệt qua các vị trí trong lưới
+                index++;
             }
         }
     }
-    private void CreatEnemy(Item idEnemy)
+
+    // Hàm để sinh enemy dựa trên ID của enemy (Item)
+    private void CreateEnemy(Item idEnemy)
     {
+        // Tìm kiếm dữ liệu của enemy trong bảng dữ liệu cấu hình dựa trên ID
         var enemyData = enemyDataConfigTable.DataTable.FirstOrDefault(e => e.enemyId == idEnemy);
-        if (enemyData != null) {
 
-            var enemybase = enemyData.enemyIndexInfos[0].enemy;
-            if (enemybase != null)
-            {
-                // Sinh ra enemy ở vị trí ngẫu nhiên
-              EnemyBase thisEnemy=    Instantiate(enemybase, pathCreator.Line[levelData.levels[0].waveData[wave].spawner[0].indexLine].List_Points[0], Quaternion.identity, parentObj);
-                thisEnemy.GetComponent<EnemyBase>();
-                if (thisEnemy != null)
-                {
-                    thisEnemy.SetPathCreator(pathCreator, levelData.levels[0].waveData[wave].spawner[0].indexLine);
-                    lstEnemyInWave.Add(thisEnemy);
+        // Nếu không tìm thấy dữ liệu enemy hoặc không có prefab cho enemy, in cảnh báo
+        if (enemyData == null || enemyData.enemyIndexInfos[0].enemy == null)
+        {
+            Debug.LogWarning($"Không tìm thấy EnemyBase hợp lệ cho enemy có ID: {idEnemy}");
+            return;
+        }
 
-                    // enemy.MovingEndPos(pos);
-                }
-                else
-                {
-                    Debug.LogError("EnemyPrefab must have an EnemyMovement script.");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Không tìm thấy EnemyBase hợp lệ cho enemy có ID: ");
-            }
+        // Tạo một instance của enemy tại vị trí bắt đầu của đường đi (path)
+        EnemyBase newEnemy = Instantiate(
+            enemyData.enemyIndexInfos[0].enemy,
+            pathCreator.Line[levelData.levels[0].waveData[wave].spawner[0].indexLine].List_Points[0],
+            Quaternion.identity,
+            parentObj
+        );
+
+        // Nếu enemy được tạo thành công, thêm nó vào danh sách lstEnemyInWave
+        if (newEnemy != null)
+        {
+            lstEnemyInWave.Add(newEnemy);
+        }
+        else
+        {
+            Debug.LogError("EnemyPrefab must have an EnemyMovement script."); // Thông báo lỗi nếu prefab không có script điều khiển
         }
     }
 
+    // Hàm kiểm tra xem wave hiện tại đã kết thúc chưa (tức là tất cả enemy đã bị tiêu diệt)
     public void CheckEndWave()
     {
+        // Nếu danh sách enemy trống, chuyển sang wave tiếp theo
         if (!lstEnemyInWave.Any())
         {
             StartCoroutine(SwitchWave());
         }
     }
+
+    // Coroutine để chuyển sang wave tiếp theo
     public IEnumerator SwitchWave()
     {
-        wave++;
-        checkWave = false; // Đặt cờ trước khi bắt đầu
-        GenerateLevel(); // Gọi hàm GenerateLevel
+        wave++; // Tăng chỉ số wave
+        checkWave = false; // Đặt cờ báo hiệu wave mới chưa bắt đầu
+        GenerateLevel(); // Gọi hàm để tạo level mới
 
-        // Chờ đến khi cờ isLevelGenerated trở thành true
+        // Chờ cho đến khi level mới được tạo hoàn chỉnh
         yield return new WaitUntil(() => checkWave);
+
+        // Bắt đầu sinh enemy cho wave mới
         StartCoroutine(SpawnEnemies());
     }
 }
