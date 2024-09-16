@@ -59,8 +59,8 @@ public abstract class EnemyBase : ShotCollisionDamage
             }
             DropItemManager.Instance.DropItem(Item.upgradeitem, 1, this.transform);
             Destroy(this.gameObject);
-            LevelControler.Instance.lstEnemyInWave.Remove(this);
-            LevelControler.Instance.CheckEndWave();
+            LevelControler.Instance.lstEnemySpawner.Remove(this);
+            LevelControler.Instance.CheckSpawner();
         }
     }
 
