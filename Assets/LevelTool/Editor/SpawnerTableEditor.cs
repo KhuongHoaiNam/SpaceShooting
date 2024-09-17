@@ -13,7 +13,7 @@ public class SpawnerTableEditor : Editor
         spawner = (SpawnerData)target;
 
         // Load the SpriteManager asset (make sure it exists in the specified path)
-        spawner.EnemyDataConfigTable = AssetDatabase.LoadAssetAtPath<EnemyDataConfigTable>("Assets/EnemyDataConfig.asset");
+    //   spawner.EnemyDataConfigTable = AssetDatabase.LoadAssetAtPath<EnemyDataConfigTable>("Assets/EnemyDataConfig.asset");
 
         // Initialize the grid if necessary
         if (spawner.WidthEnemy == null || spawner.WidthEnemy.Length != spawner.gridWidth * spawner.gridHeight)
@@ -88,7 +88,7 @@ public class SpawnerTableEditor : Editor
                 EditorGUILayout.BeginVertical(GUILayout.Width(cellSize));
 
                 // Dropdown cho item (kẻ địch)
-                spawner.WidthEnemy[index].item = (Item)EditorGUILayout.EnumPopup(spawner.WidthEnemy[index].item, GUILayout.Width(cellSize), GUILayout.Height(cellSize - 30));
+               spawner.WidthEnemy[index].item = (Item)EditorGUILayout.EnumPopup(spawner.WidthEnemy[index].item, GUILayout.Width(cellSize), GUILayout.Height(cellSize - 30));
 
                 GUILayout.Space(5);
 
