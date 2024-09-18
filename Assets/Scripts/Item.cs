@@ -41,14 +41,12 @@ public enum SpaceShipInfo
 {
     none,
 }
-public enum LineMoving
+
+public enum SenceId
 {
-    none,
-    Line1, 
-    Line2,
-    Line3,
-    Line4,
-    Line5,
-    Line6,
+    none, 
+    LoadingSence,
+    MennuView,
+    GameSence,
 
 }
