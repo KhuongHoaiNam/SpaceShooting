@@ -33,6 +33,8 @@ public class Loader : SingletonMono<Loader>
                 imageLoading.fillAmount = 1f;
                 Loadbar.SetActive(false);
                 loadGame = false;
+                ViewManager.SwitchView(ViewIndex.SelectLevelView);
+
                 Loading(seneceId = SenceId.MennuView);
             }
         }
