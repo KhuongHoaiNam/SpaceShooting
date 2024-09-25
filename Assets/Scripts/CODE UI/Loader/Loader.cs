@@ -8,7 +8,7 @@ public class Loader : SingletonMono<Loader>
 {
     public float timeEndLoadGame = 4f;
     private float timeStartLoadGame = 0f;
-   [SerializeField]  private bool loadGame;
+  public bool loadGame;
 
     public SenceId seneceId;
     [SerializeField] private GameObject Loadbar;
@@ -24,6 +24,8 @@ public class Loader : SingletonMono<Loader>
         if(loadGame == true)
         {
             Loadbar.SetActive(true);
+            this.gameObject.SetActive(true);
+            timeStartLoadGame = 0;
             timeStartLoadGame += Time.deltaTime;
             float fillAmout = Mathf.Clamp01(timeStartLoadGame / timeEndLoadGame     );
             imageLoading.fillAmount = fillAmout;
@@ -33,7 +35,7 @@ public class Loader : SingletonMono<Loader>
                 imageLoading.fillAmount = 1f;
                 Loadbar.SetActive(false);
                 loadGame = false;
-                ViewManager.SwitchView(ViewIndex.SelectLevelView);
+                ViewManager.SwitchView(ViewIndex.MennuView);
 
                 Loading(seneceId = SenceId.MennuView);
             }
