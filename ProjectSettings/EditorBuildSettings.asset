@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Resources/Scenes/MennuView.unity
     guid: a38830e05a3884b42ae18b31f09fd65f
+  - enabled: 1
+    path: Assets/Resources/Scenes/Test.unity
+    guid: 2a8964a996f3cf94486964ca8c74ba9a
   m_configObjects: {}
