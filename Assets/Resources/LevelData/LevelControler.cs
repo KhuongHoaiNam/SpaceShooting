@@ -24,7 +24,7 @@ public class LevelControler : SingletonMono<LevelControler>
     public bool checkStatusChange;
 
     public ToolTipStateGame txtToolTip;
-
+    public int idlv;
 
     // Hàm Start được gọi khi bắt đầu game
     void Start()
@@ -44,7 +44,7 @@ public class LevelControler : SingletonMono<LevelControler>
         }
 
         // Lấy thông tin spawner của wave hiện tại
-        var spawner = levelData.levels[0].waveData[wave].spawner[currentSpawner];
+        var spawner = levelData.levels[idlv].waveData[wave].spawner[currentSpawner];
 
         // Duyệt qua lưới để tạo các vị trí spawn
         for (int y = 0; y < spawner.gridHeight; y++)
@@ -78,7 +78,7 @@ public class LevelControler : SingletonMono<LevelControler>
         for (int i = 0; i < lstEnemySpawner.Count; i++)
         {
             lstEnemySpawner[i].endPos = transTarget[i]; // Đặt vị trí đích cho mỗi enemy
-            lstEnemySpawner[i].SetPathCreator(pathCreator, levelData.levels[0].waveData[wave].spawner[currentSpawner].WidthEnemy[i].indexLine); // Đặt đường đi cho enemy
+            lstEnemySpawner[i].SetPathCreator(pathCreator, levelData.levels[idlv].waveData[wave].spawner[currentSpawner].WidthEnemy[i].indexLine); // Đặt đường đi cho enemy
             yield return new WaitForSeconds(spawnInterval); // Chờ trước khi sinh enemy tiếp theo
         }
     }
@@ -87,7 +87,7 @@ public class LevelControler : SingletonMono<LevelControler>
     public void SetUpTarget()
     {
         lstEnemySpawner.Clear();
-        var spawner = levelData.levels[0].waveData[wave].spawner[currentSpawner];
+        var spawner = levelData.levels[idlv].waveData[wave].spawner[currentSpawner];
         int index = 0;
         Debug.Log($"{wave}++++++{currentSpawner}");
         // Duyệt qua lưới (grid) để tìm các vị trí có enemy cần spawn
@@ -109,7 +109,7 @@ public class LevelControler : SingletonMono<LevelControler>
     {
       
         var enemyData = enemyDataConfigTable.DataTable.FirstOrDefault(e => e.enemyId == idEnemy);
-        var pointIndex = pathCreator.Line[levelData.levels[0].waveData[wave].spawner[0].WidthEnemy[line].indexLine].List_Points;
+        var pointIndex = pathCreator.Line[levelData.levels[idlv].waveData[wave].spawner[0].WidthEnemy[line].indexLine].List_Points;
         if (enemyData == null || enemyData.enemyIndexInfos[0].enemy == null)
         {
             Debug.LogWarning($"Không tìm thấy EnemyBase hợp lệ cho enemy có ID: {idEnemy}");
@@ -134,7 +134,7 @@ public class LevelControler : SingletonMono<LevelControler>
 
     public void CheckSpawner()
     {
-        var indexSpawner = levelData.levels[0].waveData[wave].spawner.Count;
+        var indexSpawner = levelData.levels[idlv].waveData[wave].spawner.Count;
         if (!lstEnemySpawner.Any())
         {
             currentSpawner++;
@@ -170,10 +170,10 @@ public class LevelControler : SingletonMono<LevelControler>
 
     public IEnumerator OnShowToolTip()
     {
-        var totalWave = levelData.levels[0].waveData.Count;
-        var totalSpawner = levelData.levels[0].waveData[wave].spawner.Count;
+        var totalWave = levelData.levels[idlv].waveData.Count;
+        var totalSpawner = levelData.levels[idlv].waveData[wave].spawner.Count;
         txtToolTip.gameObject.SetActive(true);
-        txtToolTip.SetUpToolTip( $"Wave {wave.ToString()}", totalWave);
+        txtToolTip.SetUpToolTip( $"{idlv}==Wave {wave.ToString()}", totalWave);
         yield return new WaitForSeconds(3f);
         txtToolTip.gameObject.SetActive(false);
         yield return new WaitForSeconds(1f);
