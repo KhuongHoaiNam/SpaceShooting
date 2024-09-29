@@ -25,7 +25,6 @@ public class Loader : SingletonMono<Loader>
         {
             Loadbar.SetActive(true);
             this.gameObject.SetActive(true);
-            timeStartLoadGame = 0;
             timeStartLoadGame += Time.deltaTime;
             float fillAmout = Mathf.Clamp01(timeStartLoadGame / timeEndLoadGame     );
             imageLoading.fillAmount = fillAmout;
@@ -35,9 +34,9 @@ public class Loader : SingletonMono<Loader>
                 imageLoading.fillAmount = 1f;
                 Loadbar.SetActive(false);
                 loadGame = false;
-                ViewManager.SwitchView(ViewIndex.MennuView);
+               // ViewManager.SwitchView(ViewIndex.MennuView);
 
-                Loading(seneceId = SenceId.MennuView);
+                Loading(seneceId = SenceId.GameSence);
             }
         }
     }

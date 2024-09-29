@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+﻿/*using UnityEditor;
 using UnityEngine;
 using System.IO;
 
@@ -96,7 +96,7 @@ public static class ViewLevelTool
         // Refresh lại Asset Database để Unity nhận diện được folder mới
         AssetDatabase.Refresh();
     }
-    /*   private static void DeleteFolder(int id)
+    *//*   private static void DeleteFolder(int id)
        {
            // Đường dẫn tới folder cần xóa, với id cụ thể
            string folderPathToDelete = $"Assets/Resources/LevelData/LevelTotal/Level{id}";
@@ -115,7 +115,7 @@ public static class ViewLevelTool
            {
                Debug.LogWarning($"Folder does not exist: {folderPathToDelete}");
            }
-       }*/
+       }*//*
 
     private static void DeleteFolder(int id)
     {
@@ -146,3 +146,4 @@ public static class ViewLevelTool
 
 
 }
+*/

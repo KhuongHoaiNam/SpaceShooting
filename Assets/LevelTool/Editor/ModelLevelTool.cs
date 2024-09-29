@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static class ModelLevelTool 
 {
-    public static int curentLevel = 0;
+/*    public static int curentLevel = 0;
     public static int waveIndex = 0;
 
     public static TotalLevelData LoadTotalLeveData()
@@ -37,5 +37,5 @@ public static class ModelLevelTool
     {
         WaveData wavedata = LoadWaveData();
         return wavedata.spawner[Sawnerindex];
-    }
+    }*/
 }

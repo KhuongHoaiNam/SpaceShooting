@@ -12,10 +12,7 @@ public class SpawnerTableEditor : Editor
     {
         spawner = (SpawnerData)target;
 
-        // Load the SpriteManager asset (make sure it exists in the specified path)
-    //   spawner.EnemyDataConfigTable = AssetDatabase.LoadAssetAtPath<EnemyDataConfigTable>("Assets/EnemyDataConfig.asset");
-
-        // Initialize the grid if necessary
+        // Khởi tạo lưới nếu cần thiết
         if (spawner.WidthEnemy == null || spawner.WidthEnemy.Length != spawner.gridWidth * spawner.gridHeight)
         {
             spawner.InitializeGrid();
@@ -26,31 +23,39 @@ public class SpawnerTableEditor : Editor
     {
         serializedObject.Update();
 
-        // Draw the default inspector for base properties
+        // Vẽ inspector mặc định cho các thuộc tính cơ bản
         DrawDefaultInspector();
 
         EditorGUILayout.Space();
 
-        // Handle grid dimension changes
+        // Xử lý thay đổi kích thước grid
         HandleGridDimensionChange();
 
-        // Draw the grid for selecting enemies
+        // Vẽ lưới để chọn kẻ địch
         DrawGrid();
 
+        // Áp dụng các thuộc tính đã thay đổi
         serializedObject.ApplyModifiedProperties();
+
+        // Đánh dấu rằng dữ liệu đã thay đổi và lưu lại
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(spawner); // Đánh dấu spawner là đã thay đổi
+            AssetDatabase.SaveAssets();        // Lưu lại sự thay đổi vào tệp
+        }
     }
 
     private void HandleGridDimensionChange()
     {
-        // Store previous dimensions to detect changes
+        // Lưu kích thước trước đó để phát hiện thay đổi
         int previousWidth = spawner.gridWidth;
         int previousHeight = spawner.gridHeight;
 
-        // Editable fields for grid dimensions
+        // Trường nhập cho kích thước lưới
         spawner.gridWidth = Mathf.Max(1, EditorGUILayout.IntField("Grid Width", spawner.gridWidth));
         spawner.gridHeight = Mathf.Max(1, EditorGUILayout.IntField("Grid Height", spawner.gridHeight));
 
-        // Resize the grid if dimensions have changed
+        // Thay đổi kích thước lưới nếu kích thước đã thay đổi
         if (spawner.gridWidth != previousWidth || spawner.gridHeight != previousHeight)
         {
             ResizeEnemyGrid();
@@ -62,7 +67,7 @@ public class SpawnerTableEditor : Editor
         int newSize = spawner.gridWidth * spawner.gridHeight;
         EnemyIndex[] newGrid = new EnemyIndex[newSize];
 
-        // Copy existing data to the resized grid
+        // Sao chép dữ liệu hiện có vào lưới mới
         for (int i = 0; i < Mathf.Min(newSize, spawner.WidthEnemy.Length); i++)
         {
             newGrid[i] = spawner.WidthEnemy[i];
@@ -88,7 +93,7 @@ public class SpawnerTableEditor : Editor
                 EditorGUILayout.BeginVertical(GUILayout.Width(cellSize));
 
                 // Dropdown cho item (kẻ địch)
-               spawner.WidthEnemy[index].item = (Item)EditorGUILayout.EnumPopup(spawner.WidthEnemy[index].item, GUILayout.Width(cellSize), GUILayout.Height(cellSize - 30));
+                spawner.WidthEnemy[index].item = (Item)EditorGUILayout.EnumPopup(spawner.WidthEnemy[index].item, GUILayout.Width(cellSize), GUILayout.Height(cellSize - 30));
 
                 GUILayout.Space(5);
 
@@ -115,7 +120,6 @@ public class SpawnerTableEditor : Editor
             EditorGUILayout.EndHorizontal();
         }
     }
-
 
     private Sprite GetEnemySprite(Item enemy)
     {

@@ -6,10 +6,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SpawnerData", fileName = "Level/SpawnerData")]
 public class SpawnerData : ScriptableObject
 {
-    public int gridWidth;
-    public int gridHeight;
-    public EnemyIndex[] WidthEnemy;
-    public EnemyDataConfigTable EnemyDataConfigTable;
+    [HideInInspector]public int gridWidth;
+    [HideInInspector] public int gridHeight;
+   [HideInInspector] public EnemyIndex[] WidthEnemy;
+    [HideInInspector] public EnemyDataConfigTable EnemyDataConfigTable;
 
     // Initializes the grid with the correct size
     public void InitializeGrid()

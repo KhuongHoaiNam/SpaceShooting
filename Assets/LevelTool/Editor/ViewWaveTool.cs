@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+﻿/*using UnityEditor;
 using UnityEngine;
 using System.IO;
 
@@ -101,3 +101,4 @@ public static class ViewWaveTool
         AssetDatabase.Refresh();
     }
 }
+*/
