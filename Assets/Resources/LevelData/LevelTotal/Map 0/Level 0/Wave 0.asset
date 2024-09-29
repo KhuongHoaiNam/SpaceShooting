@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawner:
   - {fileID: 11400000, guid: 2c8440828f6706a4d959f3ceaf7d8e2a, type: 2}
+  - {fileID: 11400000, guid: 2c8440828f6706a4d959f3ceaf7d8e2a, type: 2}

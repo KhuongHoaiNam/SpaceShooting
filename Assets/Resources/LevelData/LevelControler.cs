@@ -11,10 +11,10 @@ public class LevelControler : SingletonMono<LevelControler>
     public List<Vector3> transTarget;
     public PathCreator pathCreator;
     public List<EnemyBase> lstEnemySpawner;
-    
+
     [SerializeField] private float spawnInterval;
     [SerializeField] private int wave = 0;
-    [SerializeField] private int currentSpawner = 0;
+    [SerializeField] private int currentSpawner = 0 ;
     [SerializeField] private int thisLevel;
 
     // Bảng dữ liệu cấu hình enemy, chứa thông tin về các loại enemy
@@ -29,7 +29,7 @@ public class LevelControler : SingletonMono<LevelControler>
     // Hàm Start được gọi khi bắt đầu game
     void Start()
     {
-        StartCoroutine(OnShowToolTip()); 
+        StartCoroutine(OnShowToolTip());
     }
 
     public void GenerateLevel()
@@ -71,15 +71,14 @@ public class LevelControler : SingletonMono<LevelControler>
     // Coroutine để sinh enemy theo thời gian
     private IEnumerator SpawnEnemies()
     {
-        SetUpTarget(); // Thiết lập target cho mỗi enemy
-        yield return new WaitForSeconds(spawnInterval); // Chờ khoảng thời gian giữa mỗi lần sinh
+        SetUpTarget();
+        yield return new WaitForSeconds(spawnInterval);
 
-        // Lặp qua danh sách enemy để đặt các vị trí kết thúc (endPos) và đường di chuyển cho chúng
         for (int i = 0; i < lstEnemySpawner.Count; i++)
         {
-            lstEnemySpawner[i].endPos = transTarget[i]; // Đặt vị trí đích cho mỗi enemy
+            lstEnemySpawner[i].endPos = transTarget[i];
             lstEnemySpawner[i].SetPathCreator(pathCreator, levelData.levels[idlv].waveData[wave].spawner[currentSpawner].WidthEnemy[i].indexLine); // Đặt đường đi cho enemy
-            yield return new WaitForSeconds(spawnInterval); // Chờ trước khi sinh enemy tiếp theo
+            yield return new WaitForSeconds(spawnInterval);
         }
     }
 
@@ -90,12 +89,10 @@ public class LevelControler : SingletonMono<LevelControler>
         var spawner = levelData.levels[idlv].waveData[wave].spawner[currentSpawner];
         int index = 0;
         Debug.Log($"{wave}++++++{currentSpawner}");
-        // Duyệt qua lưới (grid) để tìm các vị trí có enemy cần spawn
         for (int y = 0; y < spawner.gridHeight; y++)
         {
             for (int x = 0; x < spawner.gridWidth; x++)
             {
-                // Nếu ô hiện tại có enemy (không phải Item.none), tạo enemy ở vị trí đó
                 if (spawner.WidthEnemy[index].item != Item.none)
                 {
                     CreateEnemy(spawner.WidthEnemy[index].item, index); // Gọi hàm tạo enemy
@@ -107,7 +104,7 @@ public class LevelControler : SingletonMono<LevelControler>
 
     private void CreateEnemy(Item idEnemy, int line)
     {
-      
+
         var enemyData = enemyDataConfigTable.DataTable.FirstOrDefault(e => e.enemyId == idEnemy);
         var pointIndex = pathCreator.Line[levelData.levels[idlv].waveData[wave].spawner[0].WidthEnemy[line].indexLine].List_Points;
         if (enemyData == null || enemyData.enemyIndexInfos[0].enemy == null)
@@ -131,68 +128,50 @@ public class LevelControler : SingletonMono<LevelControler>
         }
     }
 
-
-    public void CheckSpawner()
+    public void SwitchWave()
     {
-        var indexSpawner = levelData.levels[idlv].waveData[wave].spawner.Count;
+        var totalWave = levelData.levels[idlv].waveData.Count-1;
+
+        var totalSpawner = levelData.levels[idlv].waveData[wave].spawner.Count - 1;
+
         if (!lstEnemySpawner.Any())
         {
-            currentSpawner++;
-            if (currentSpawner < indexSpawner)
+            if (wave < totalWave)
             {
-                StartCoroutine(OnShowToolTip());
-                Debug.Log("wave");
+                if (currentSpawner < totalSpawner)
+                {
+                    currentSpawner++;
+                    StartCoroutine(OnShowToolTip());
+                }
+                else if (currentSpawner >= totalSpawner)
+                {
+                    wave++;
+                    currentSpawner = 0;
+                    checkStatusChange = false;
+                    StartCoroutine(OnShowToolTip());
+                }
             }
-            else if (currentSpawner >= indexSpawner)
+            else
             {
-                StartCoroutine(SwitchWave());
-                StartCoroutine(OnShowToolTip());
-                Debug.Log("Chuyen Wave");
+                idlv ++;
             }
-            Debug.Log(indexSpawner);
+
         }
     }
-    public IEnumerator SwitchWave()
-    {
-        wave++; // Tăng chỉ số wave
-        currentSpawner = 0;
-
-        checkStatusChange = false; // Đặt cờ báo hiệu wave mới chưa bắt đầu
-        GenerateLevel(); // Gọi hàm để tạo level mới
-
-        // Chờ cho đến khi level mới được tạo hoàn chỉnh
-        yield return new WaitUntil(() => checkStatusChange);
-
-        // Bắt đầu sinh enemy cho wave mới
-        StartCoroutine(SpawnEnemies());
-    }
-
-
     public IEnumerator OnShowToolTip()
     {
-        var totalWave = levelData.levels[idlv].waveData.Count;
-        var totalSpawner = levelData.levels[idlv].waveData[wave].spawner.Count;
+        var totalWave = levelData.levels[idlv].waveData.Count-1;
+        var totalSpawner = levelData.levels[idlv].waveData[wave].spawner.Count-1;
         txtToolTip.gameObject.SetActive(true);
-        txtToolTip.SetUpToolTip( $"{idlv}==Wave {wave.ToString()}", totalWave);
+        txtToolTip.SetUpToolTip($"{idlv}==Wave {wave.ToString()}", totalWave);
         yield return new WaitForSeconds(3f);
         txtToolTip.gameObject.SetActive(false);
         yield return new WaitForSeconds(1f);
         txtToolTip.gameObject.SetActive(true);
-        txtToolTip.SetUpToolTip($" Spawner { currentSpawner.ToString()}", totalSpawner);
+        txtToolTip.SetUpToolTip($" Spawner {currentSpawner.ToString()}", totalSpawner);
         yield return new WaitForSeconds(2f);
         txtToolTip.gameObject.SetActive(false);
         GenerateLevel(); // Gọi hàm để khởi tạo level
         StartCoroutine(SpawnEnemies()); // Bắt đầu quá trình sinh enemy
     }
-
-    /*public void CheckEndWave()
-    {
-        // Nếu danh sách enemy trống, chuyển sang wave tiếp theo
-        if (!lstEnemyInWave.Any())
-        {
-            StartCoroutine(SwitchWave());
-        }
-    }
-
- */
 }
