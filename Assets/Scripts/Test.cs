@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    public GameObject objectPrefabA; // Prefab của GameObject A
+    public void Start()
+    {
+        Debug.Log(Datamanager.Instance.user.currentLevel);
+    }
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Datamanager.Instance.ComplateLevel();
+        }
+    }
+    /*public GameObject objectPrefabA; // Prefab của GameObject A
     public Transform parentTransformB; // GameObject B hoặc Transform của nó
 
     void Start()
@@ -20,5 +31,5 @@ public class Test : MonoBehaviour
 
         // Gán objectA làm con của parentTransformB
         objectA.transform.SetParent(parentTransformB, false); // false để không thay đổi vị trí và góc quay
-    }
+    }*/
 }

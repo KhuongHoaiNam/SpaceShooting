@@ -63,7 +63,8 @@ public class Datamanager : SingletonMono<Datamanager>
         {
             user = new UserData
             {
-                level = 0,
+                currentLevel = 0,
+                currentMap = 0,
                 items = new Dictionary<Item, int>
                 {
                     { Item.coin, 0 }
@@ -72,6 +73,33 @@ public class Datamanager : SingletonMono<Datamanager>
             Save();
             Debug.Log("Load Data ============================");
         }
+    }
+    public void DeleteUserData()
+    {
+        // Xóa file UserData.json nếu tồn tại
+        if (File.Exists(UserDataPath))
+        {
+            File.Delete(UserDataPath);
+            Debug.Log("Đã xóa dữ liệu người dùng.");
+        }
+        else
+        {
+            Debug.LogWarning("Không tìm thấy dữ liệu người dùng để xóa.");
+        }
+
+        // Khởi tạo lại dữ liệu người dùng với giá trị mặc định
+        user = new UserData
+        {
+            currentLevel = 0,
+            currentMap = 0,
+            items = new Dictionary<Item, int>
+        {
+            { Item.coin, 0 }
+        }
+        };
+
+        Save(); // Lưu lại dữ liệu mặc định
+        Debug.Log("Dữ liệu người dùng đã được khởi tạo lại.");
     }
 
     public void UpdateItem(Item item, int amount)
@@ -101,12 +129,35 @@ public class Datamanager : SingletonMono<Datamanager>
         }
         return 0;
     }
+
+    public void ComplateLevel()
+    {
+        user.currentLevel++;
+        Save();
+    }
+    public void GetLeveLInMap(int level, int map)
+    {
+        //lấy ra level và map hiện tại 
+        level = user.currentLevel;
+        map = user.currentMap;
+    }
+    public int Level(int level, int map)
+    {
+        // Lấy ra level và map hiện tại 
+        level = user.currentLevel;
+        map = user.currentMap;
+
+        // Giả sử bạn muốn trả về level hiện tại
+        return level; // Hoặc trả về map nếu bạn muốn
+    }
 }
 
 [Serializable]
 public class UserData
 {
-    public int level;
+    public int currentLevel;
+    public int currentMap;
+   
     public Dictionary<Item, int> items;
 
     // List cho việc serialize

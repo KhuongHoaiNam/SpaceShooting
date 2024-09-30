@@ -36,7 +36,7 @@ public class ViewManager : SingletonMono<ViewManager>
         Stackview = new List<ViewIndex>();
         //khai bao cac ten cuar popup d goi hien thi
         viewDictionary[ViewIndex.MennuView] = "MennuView";
-        viewDictionary[ViewIndex.PopupWinView] = "PopupWinview";
+        viewDictionary[ViewIndex.PopupWinView] = "PopupWinView";
         viewDictionary[ViewIndex.PopupLoseView] = "PopupLoseView";
         viewDictionary[ViewIndex.SelectLevelView] = "SelectLevelView";
         viewDictionary[ViewIndex.SelectMapView] = "SelectMapView";

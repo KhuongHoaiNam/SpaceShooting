@@ -24,12 +24,12 @@ public class LevelControler : SingletonMono<LevelControler>
     public bool checkStatusChange;
 
     public ToolTipStateGame txtToolTip;
-    public int idlv;
+    public int idlv => Datamanager.Instance.user.currentLevel;
 
     // Hàm Start được gọi khi bắt đầu game
     void Start()
     {
-        StartCoroutine(OnShowToolTip());
+        StartCoroutine(OnShowToolTip(wave+1, currentSpawner+1));
     }
 
     public void GenerateLevel()
@@ -76,8 +76,9 @@ public class LevelControler : SingletonMono<LevelControler>
 
         for (int i = 0; i < lstEnemySpawner.Count; i++)
         {
+            var Setupline = levelData.levels[idlv].waveData[wave].spawner[currentSpawner].WidthEnemy[i].indexLine;
             lstEnemySpawner[i].endPos = transTarget[i];
-            lstEnemySpawner[i].SetPathCreator(pathCreator, levelData.levels[idlv].waveData[wave].spawner[currentSpawner].WidthEnemy[i].indexLine); // Đặt đường đi cho enemy
+            lstEnemySpawner[i].SetPathCreator(pathCreator,Setupline ); // Đặt đường đi cho enemy
             yield return new WaitForSeconds(spawnInterval);
         }
     }
@@ -141,27 +142,23 @@ public class LevelControler : SingletonMono<LevelControler>
                 if (currentSpawner < totalSpawner)
                 {
                     currentSpawner++;
-                    StartCoroutine(OnShowToolTip());
+                    StartCoroutine(OnShowToolTip(totalWave, totalSpawner));
                 }
                 else if (currentSpawner >= totalSpawner)
                 {
                     wave++;
                     currentSpawner = 0;
                     checkStatusChange = false;
-                    StartCoroutine(OnShowToolTip());
+                    StartCoroutine(OnShowToolTip(totalWave, totalSpawner));
                 }
             }
-            else
-            {
-                idlv ++;
+            else {
+                ViewManager.SwitchView(ViewIndex.PopupWinView);
             }
-
         }
     }
-    public IEnumerator OnShowToolTip()
+    public IEnumerator OnShowToolTip(int totalWave, int totalSpawner)
     {
-        var totalWave = levelData.levels[idlv].waveData.Count-1;
-        var totalSpawner = levelData.levels[idlv].waveData[wave].spawner.Count-1;
         txtToolTip.gameObject.SetActive(true);
         txtToolTip.SetUpToolTip($"{idlv}==Wave {wave.ToString()}", totalWave);
         yield return new WaitForSeconds(3f);

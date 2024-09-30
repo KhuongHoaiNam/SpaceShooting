@@ -294,7 +294,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   user:
-    level: 0
+    currentLevel: 0
+    currentMap: 0
     serializableItems: []
 --- !u!1 &1019872237
 GameObject:

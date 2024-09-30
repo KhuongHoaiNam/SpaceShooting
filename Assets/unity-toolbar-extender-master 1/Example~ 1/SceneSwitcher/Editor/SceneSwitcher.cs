@@ -55,6 +55,11 @@ namespace UnityToolbarExtender.Examples
             {
                 SceneHelper.OnSwichSence("GameSence");
             }
+
+            if (GUILayout.Button(new GUIContent("Clear Data", "Start Scene 2"), largerButtonStyle))
+            {
+                Datamanager.Instance.DeleteUserData();
+            }
         }
     }
 
