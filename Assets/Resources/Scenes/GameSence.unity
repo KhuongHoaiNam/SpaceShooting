@@ -1829,7 +1829,6 @@ MonoBehaviour:
   enemyDataConfigTable: {fileID: 11400000, guid: 1e4ab25efeead4840be8e98803955ecb, type: 2}
   checkStatusChange: 0
   txtToolTip: {fileID: 312601262}
-  idlv: 0
 --- !u!1 &4288268846647060694
 GameObject:
   m_ObjectHideFlags: 0

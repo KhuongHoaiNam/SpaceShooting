@@ -24,12 +24,13 @@ public class LevelControler : SingletonMono<LevelControler>
     public bool checkStatusChange;
 
     public ToolTipStateGame txtToolTip;
-    public int idlv => Datamanager.Instance.user.currentLevel;
+    public int idlv => Datamanager.Instance.user.levelPlaying;
 
     // Hàm Start được gọi khi bắt đầu game
     void Start()
     {
         StartCoroutine(OnShowToolTip(wave+1, currentSpawner+1));
+        Debug.Log(idlv);
     }
 
     public void GenerateLevel()
@@ -44,7 +45,7 @@ public class LevelControler : SingletonMono<LevelControler>
         }
 
         // Lấy thông tin spawner của wave hiện tại
-        var spawner = levelData.levels[idlv].waveData[wave].spawner[currentSpawner];
+        var spawner = levelData.maps[0].levels[idlv].waveData[wave].spawner[currentSpawner];
 
         // Duyệt qua lưới để tạo các vị trí spawn
         for (int y = 0; y < spawner.gridHeight; y++)
@@ -76,7 +77,7 @@ public class LevelControler : SingletonMono<LevelControler>
 
         for (int i = 0; i < lstEnemySpawner.Count; i++)
         {
-            var Setupline = levelData.levels[idlv].waveData[wave].spawner[currentSpawner].WidthEnemy[i].indexLine;
+            var Setupline = levelData.maps[0].levels[idlv].waveData[wave].spawner[currentSpawner].WidthEnemy[i].indexLine;
             lstEnemySpawner[i].endPos = transTarget[i];
             lstEnemySpawner[i].SetPathCreator(pathCreator,Setupline ); // Đặt đường đi cho enemy
             yield return new WaitForSeconds(spawnInterval);
@@ -86,8 +87,9 @@ public class LevelControler : SingletonMono<LevelControler>
     // Hàm thiết lập target cho từng enemy
     public void SetUpTarget()
     {
+
         lstEnemySpawner.Clear();
-        var spawner = levelData.levels[idlv].waveData[wave].spawner[currentSpawner];
+        var spawner = levelData.maps[0].levels[idlv].waveData[wave].spawner[currentSpawner];
         int index = 0;
         Debug.Log($"{wave}++++++{currentSpawner}");
         for (int y = 0; y < spawner.gridHeight; y++)
@@ -105,9 +107,9 @@ public class LevelControler : SingletonMono<LevelControler>
 
     private void CreateEnemy(Item idEnemy, int line)
     {
-
+        var dataLevel = levelData.maps[0].levels[idlv].waveData[wave].spawner[0].WidthEnemy[line].indexLine;
         var enemyData = enemyDataConfigTable.DataTable.FirstOrDefault(e => e.enemyId == idEnemy);
-        var pointIndex = pathCreator.Line[levelData.levels[idlv].waveData[wave].spawner[0].WidthEnemy[line].indexLine].List_Points;
+        var pointIndex = pathCreator.Line[dataLevel].List_Points;
         if (enemyData == null || enemyData.enemyIndexInfos[0].enemy == null)
         {
             Debug.LogWarning($"Không tìm thấy EnemyBase hợp lệ cho enemy có ID: {idEnemy}");
@@ -131,9 +133,9 @@ public class LevelControler : SingletonMono<LevelControler>
 
     public void SwitchWave()
     {
-        var totalWave = levelData.levels[idlv].waveData.Count-1;
+        var totalWave = levelData.maps[0].levels[idlv].waveData.Count-1;
 
-        var totalSpawner = levelData.levels[idlv].waveData[wave].spawner.Count - 1;
+        var totalSpawner = levelData.maps[0].levels[idlv].waveData[wave].spawner.Count - 1;
 
         if (!lstEnemySpawner.Any())
         {

@@ -12,8 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71c80f427118ee42889c503921ad766, type: 3}
   m_Name: Level_SpawnerData
   m_EditorClassIdentifier: 
-  width: 5
-  height: 5
-  indexLine: 0
-  listEnemySpawner: []
-  tiles: 00000000000000000100000000000000000000000100000001000000010000000100000001000000000000000100000000000000010000000100000000000000010000000100000000000000000000000100000000000000010000000100000001000000
+  gridWidth: 2
+  gridHeight: 2
+  WidthEnemy:
+  - item: 152
+    indexLine: 1
+  - item: 152
+    indexLine: 0
+  - item: 0
+    indexLine: 0
+  - item: 150
+    indexLine: 0
+  EnemyDataConfigTable: {fileID: 0}

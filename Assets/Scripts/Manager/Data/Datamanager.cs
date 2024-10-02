@@ -68,7 +68,8 @@ public class Datamanager : SingletonMono<Datamanager>
                 items = new Dictionary<Item, int>
                 {
                     { Item.coin, 0 }
-                }
+                }, 
+                starCollection = new Dictionary<int, Dictionary<int, int>>()
             };
             Save();
             Debug.Log("Load Data ============================");
@@ -130,43 +131,62 @@ public class Datamanager : SingletonMono<Datamanager>
         return 0;
     }
 
-    public void ComplateLevel()
+
+    public void UpdateStars(int mapId, int levels, int starIndex)
+    {
+        if (!user.starCollection.ContainsKey(mapId))
+        {
+            user.starCollection[mapId] = new Dictionary<int, int>();
+
+        }
+        if (user.starCollection[mapId].ContainsKey(levels))
+        {
+            user.starCollection[mapId][levels] = Math.Max(user.starCollection[mapId][levels], starIndex);
+        }
+        else
+        {
+            user.starCollection[mapId][levels] = starIndex;
+        }
+        Save();
+        Debug.Log($"Cap nhap so sao cho level");
+    }
+
+
+    public int GetStars(int map, int levels)
+    {
+        if (user.starCollection.ContainsKey(map) && user.starCollection.ContainsKey(levels))
+        {
+            return user.starCollection[map][levels];
+        }
+        return 0;
+    }
+
+
+    public void ComplateLeves()
     {
         user.currentLevel++;
         Save();
     }
-    public void GetLeveLInMap(int level, int map)
+
+
+    
+    [Serializable]
+    public class UserData
     {
-        //lấy ra level và map hiện tại 
-        level = user.currentLevel;
-        map = user.currentMap;
+        public int currentLevel;
+        public int currentMap;
+        public int levelPlaying;
+        public Dictionary<Item, int> items;
+        public Dictionary<int, Dictionary<int, int>> starCollection;
+
+        // List cho việc serialize
+        public List<ItemAmount> serializableItems;
     }
-    public int Level(int level, int map)
+
+    [Serializable]
+    public class ItemAmount
     {
-        // Lấy ra level và map hiện tại 
-        level = user.currentLevel;
-        map = user.currentMap;
-
-        // Giả sử bạn muốn trả về level hiện tại
-        return level; // Hoặc trả về map nếu bạn muốn
+        public Item item;
+        public int amount;
     }
-}
-
-[Serializable]
-public class UserData
-{
-    public int currentLevel;
-    public int currentMap;
-   
-    public Dictionary<Item, int> items;
-
-    // List cho việc serialize
-    public List<ItemAmount> serializableItems;
-}
-
-[Serializable]
-public class ItemAmount
-{
-    public Item item;
-    public int amount;
 }

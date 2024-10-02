@@ -36,7 +36,7 @@ public class Loader : SingletonMono<Loader>
                 loadGame = false;
                // ViewManager.SwitchView(ViewIndex.MennuView);
 
-                Loading(seneceId = SenceId.GameSence);
+                Loading(seneceId = SenceId.MennuView);
             }
         }
     }

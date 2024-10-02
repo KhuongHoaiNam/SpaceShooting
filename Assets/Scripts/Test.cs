@@ -12,7 +12,7 @@ public class Test : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            Datamanager.Instance.ComplateLevel();
+            Datamanager.Instance.ComplateLeves();
         }
     }
     /*public GameObject objectPrefabA; // Prefab của GameObject A

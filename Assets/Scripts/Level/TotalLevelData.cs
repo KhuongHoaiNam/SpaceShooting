@@ -6,6 +6,11 @@ using UnityEngine;
 [CreateAssetMenu (fileName = "TotalLevelData", menuName = "Level/LevelTotal")]
 public class TotalLevelData : ScriptableObject
 {
-    public List<LevelData> levels;
+    public List<DataMap> maps;
  
+}
+[Serializable]
+public class DataMap
+{
+    public List <LevelData> levels;
 }
