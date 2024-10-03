@@ -34,16 +34,26 @@ public class Loader : SingletonMono<Loader>
                 imageLoading.fillAmount = 1f;
                 Loadbar.SetActive(false);
                 loadGame = false;
-               // ViewManager.SwitchView(ViewIndex.MennuView);
-
-                Loading(seneceId = SenceId.MennuView);
+                LoadingView(SenceId.MennuView, ViewIndex.MennuView);
             }
         }
     }
 
-    public void Loading(SenceId senceId)
+    public void Loading(SenceId senceId )
     {
+        ViewManager.Instance.CloseAllViews();
         SceneManager.LoadScene(senceId.ToString());
+        
+    }
+   
+    public void LoadingView(SenceId senceId, ViewIndex viewIndex)
+    {
+        ViewManager.Instance.viewindex = viewIndex;
+        SceneManager.LoadScene(viewIndex.ToString());
+    }
+    public void ResetSence()
+    {
+
     }
 }
 

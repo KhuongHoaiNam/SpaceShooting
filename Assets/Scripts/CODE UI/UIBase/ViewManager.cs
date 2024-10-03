@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -85,6 +85,27 @@ public class ViewManager : SingletonMono<ViewManager>
             return;
         }
     }
+    // Phương thức để tắt tất cả các view
+    public void CloseAllViews()
+    {
+        // Kiểm tra nếu view hiện tại đang tồn tại, set nó không hoạt động
+        if (currentView != null)
+        {
+            currentView.gameObject.SetActive(false);
+            currentView = null;
+        }
+
+        // Nếu view tiếp theo đang tồn tại, set nó không hoạt động
+        if (nextView != null)
+        {
+            nextView.gameObject.SetActive(false);
+            nextView = null;
+        }
+
+        // Xóa toàn bộ stack
+        Debug.Log("All views have been deactivated (SetActive(false)).");
+    }
+
 
     public static void SwitchView(ViewIndex view)
     {

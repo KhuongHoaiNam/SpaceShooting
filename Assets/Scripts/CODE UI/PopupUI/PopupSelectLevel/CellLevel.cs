@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CellLevel : MonoBehaviour
 {
-    public int idLelevel;
-    public Button btnClick;
+    private int idLelevel;
+    [SerializeField] private Button btnClick;
+    [SerializeField] private TextMeshProUGUI txtLevel;
+    [SerializeField] private Image[] imgStar;
+    [SerializeField] private Sprite sprStar;
+    [SerializeField] private GameObject objLock;
     public void OnEnable()
     {
         btnClick.onClick.RemoveListener(OnLoadGame);
@@ -16,18 +21,34 @@ public class CellLevel : MonoBehaviour
     public void SetUp(int id)
     {
         idLelevel = id;
+        txtLevel.text = id.ToString();
+        if (idLelevel <= Datamanager.Instance.user.currentLevel)
+        {
+
+            btnClick.interactable = true;
+            objLock.SetActive(false);
+            Debug.Log(Datamanager.Instance.user.currentLevel);
+
+        }
+        else 
+        {
+            btnClick.interactable = false;
+            objLock.SetActive(true);
+        }
+     
 
     }
 
-    public void OnLoadGame() 
+
+    public void OnLoadGame()
     {
-       
-        if (idLelevel <= Datamanager.Instance.user.currentLevel) {
+
+        if (idLelevel <= Datamanager.Instance.user.currentLevel)
+        {
 
             Datamanager.Instance.user.levelPlaying = idLelevel;
-            this.gameObject.SetActive(false);
             Loader.Instance.Loading(SenceId.GameSence);
-           
+
         }
 
     }
