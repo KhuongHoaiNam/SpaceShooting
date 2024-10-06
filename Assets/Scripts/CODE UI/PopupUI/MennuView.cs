@@ -17,8 +17,7 @@ public class MennuView : View
     public override void OnHide()
     {
         base.OnHide();
-        Loader.Instance.loadGame = true;
-        Loader.Instance.Loading(SenceId.LoadingSence);
+      
     }
 
     public void OnClickPlay()

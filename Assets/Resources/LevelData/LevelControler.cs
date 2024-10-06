@@ -33,6 +33,17 @@ public class LevelControler : SingletonMono<LevelControler>
         Debug.Log(idlv);
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.U)) {
+            OnWin();
+        }
+    }
+    public void OnWin()
+    {
+        ViewManager.SwitchView(ViewIndex.PopupWinView);
+    }
+
     public void GenerateLevel()
     {
         transTarget.Clear(); // Xóa các target cũ trước khi tạo mới
