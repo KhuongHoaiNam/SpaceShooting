@@ -168,7 +168,19 @@ public class Datamanager : SingletonMono<Datamanager>
         Save();
     }
 
-
+    //map playing là những map mà user có thể chơi 
+    public int MapPlaying
+    {
+        get
+        {
+            return user.mapPlaying;
+        }
+        set
+        {
+            user.mapPlaying = value;
+            Save();
+        }
+    }
     
     [Serializable]
     public class UserData
@@ -176,6 +188,7 @@ public class Datamanager : SingletonMono<Datamanager>
         public int currentLevel;
         public int currentMap;
         public int levelPlaying;
+        public int mapPlaying;
         public Dictionary<Item, int> items;
         public Dictionary<int, Dictionary<int, int>> starCollection;
 

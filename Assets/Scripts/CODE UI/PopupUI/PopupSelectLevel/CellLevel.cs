@@ -21,6 +21,7 @@ public class CellLevel : MonoBehaviour
     public void SetUp(int id)
     {
         idLelevel = id;
+        this.gameObject.name = $"map {Datamanager.Instance.MapPlaying}, level{idLelevel}";
         txtLevel.text = id.ToString();
         if (idLelevel <= Datamanager.Instance.user.currentLevel)
         {
