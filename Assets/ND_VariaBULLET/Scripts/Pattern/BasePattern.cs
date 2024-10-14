@@ -428,7 +428,8 @@ namespace ND_VariaBULLET
             ButtonPress = 0,
             ButtonPressAutoHold,
             Automatic,
-            AutomaticAutoHold
+            AutomaticAutoHold,
+            EnemyCurrentAuto,
         }
 
         public enum SortLayerName

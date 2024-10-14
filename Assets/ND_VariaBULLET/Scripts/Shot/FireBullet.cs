@@ -60,7 +60,7 @@ namespace ND_VariaBULLET
 
         private bool triggered = false;
         private int increment;
-
+        public bool enemiesBullets;
         public override void Start()
         {
             if (Utilities.IsEditorMode())
@@ -78,6 +78,13 @@ namespace ND_VariaBULLET
                 BankingEnabled = false;
         }
 
+        public void OnEnable()
+        {
+            if (enemiesBullets == true)
+            {
+                ShotRate = Random.Range(170, 200);
+            }
+        }
         private void initPool()
         {
             if (!PoolingEnabled)

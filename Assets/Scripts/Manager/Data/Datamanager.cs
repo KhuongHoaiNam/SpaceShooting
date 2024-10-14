@@ -8,7 +8,7 @@ public class Datamanager : SingletonMono<Datamanager>
 {
     public UserData user;
     private string UserDataPath;
-
+    public TotalLevelData totalLevelData;
     public void Start() { }
 
     public void OnEnable()
@@ -64,12 +64,11 @@ public class Datamanager : SingletonMono<Datamanager>
             user = new UserData
             {
                 currentLevel = 0,
-                currentMap = 0,
                 items = new Dictionary<Item, int>
                 {
                     { Item.coin, 0 }
-                }, 
-                starCollection = new Dictionary<int, Dictionary<int, int>>()
+                },
+                starCollection = new Dictionary<int, int>(),
             };
             Save();
             Debug.Log("Load Data ============================");
@@ -92,7 +91,6 @@ public class Datamanager : SingletonMono<Datamanager>
         user = new UserData
         {
             currentLevel = 0,
-            currentMap = 0,
             items = new Dictionary<Item, int>
         {
             { Item.coin, 0 }
@@ -136,27 +134,27 @@ public class Datamanager : SingletonMono<Datamanager>
     {
         if (!user.starCollection.ContainsKey(mapId))
         {
-            user.starCollection[mapId] = new Dictionary<int, int>();
+            user.starCollection[mapId] = new int();
 
         }
-        if (user.starCollection[mapId].ContainsKey(levels))
+        if (user.starCollection.ContainsKey(levels))
         {
-            user.starCollection[mapId][levels] = Math.Max(user.starCollection[mapId][levels], starIndex);
+            user.starCollection[levels] = Math.Max(user.starCollection[levels], starIndex);
         }
         else
         {
-            user.starCollection[mapId][levels] = starIndex;
+            user.starCollection[levels] = starIndex;
         }
         Save();
         Debug.Log($"Cap nhap so sao cho level");
     }
 
 
-    public int GetStars(int map, int levels)
+    public int GetStars( int levels)
     {
-        if (user.starCollection.ContainsKey(map) && user.starCollection.ContainsKey(levels))
+        if ( user.starCollection.ContainsKey(levels))
         {
-            return user.starCollection[map][levels];
+            return user.starCollection[levels];
         }
         return 0;
     }
@@ -167,30 +165,15 @@ public class Datamanager : SingletonMono<Datamanager>
         user.currentLevel++;
         Save();
     }
-
-    //map playing là những map mà user có thể chơi 
-    public int MapPlaying
-    {
-        get
-        {
-            return user.mapPlaying;
-        }
-        set
-        {
-            user.mapPlaying = value;
-            Save();
-        }
-    }
     
+
     [Serializable]
     public class UserData
     {
         public int currentLevel;
-        public int currentMap;
         public int levelPlaying;
-        public int mapPlaying;
         public Dictionary<Item, int> items;
-        public Dictionary<int, Dictionary<int, int>> starCollection;
+        public Dictionary<int , int > starCollection;
 
         // List cho việc serialize
         public List<ItemAmount> serializableItems;

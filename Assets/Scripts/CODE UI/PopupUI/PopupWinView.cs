@@ -17,7 +17,7 @@ public class PopupWinView : View
 
         btnHome.onClick.RemoveListener(OnClickHome);
         btnHome.onClick.AddListener(OnClickHome);
-        Datamanager.Instance.ComplateLeves();
+        Datamanager.Instance. ComplateLeves();
     }
 
     public void OnClickNext()

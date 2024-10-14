@@ -12,14 +12,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71c80f427118ee42889c503921ad766, type: 3}
   m_Name: Spawner 0
   m_EditorClassIdentifier: 
-  gridWidth: 1
+  gridWidth: 5
   gridHeight: 5
   WidthEnemy:
-  - item: 152
+  - item: 150
     indexLine: 1
-  - item: 151
+  - item: 150
+    indexLine: 1
+  - item: 150
+    indexLine: 1
+  - item: 150
+    indexLine: 1
+  - item: 150
+    indexLine: 1
+  - item: 152
+    indexLine: 0
+  - item: 152
+    indexLine: 0
+  - item: 152
+    indexLine: 0
+  - item: 152
+    indexLine: 0
+  - item: 152
+    indexLine: 0
+  - item: 153
+    indexLine: 0
+  - item: 153
+    indexLine: 0
+  - item: 153
+    indexLine: 0
+  - item: 153
+    indexLine: 0
+  - item: 153
     indexLine: 0
   - item: 154
+    indexLine: 0
+  - item: 154
+    indexLine: 0
+  - item: 154
+    indexLine: 0
+  - item: 154
+    indexLine: 0
+  - item: 154
+    indexLine: 0
+  - item: 150
+    indexLine: 0
+  - item: 151
+    indexLine: 0
+  - item: 152
     indexLine: 0
   - item: 0
     indexLine: 0

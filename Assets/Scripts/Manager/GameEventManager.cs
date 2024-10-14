@@ -83,4 +83,5 @@ public enum TyperEvent
     none,
     OnUpdateLevelShipOnGame,
     OnUpdateShooting,
+    OnMovingEnemies,
 }

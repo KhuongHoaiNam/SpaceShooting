@@ -8,19 +8,15 @@ public abstract class EnemyBase : ShotCollisionDamage
 {
     public Istate currentState;
     public EnemyState enemystate;
-    public EnemyInfo EnemyInfo;
-    // Các điểm đường dẫn
     private List<Vector3> pathPoints;
     private int currentPointIndex = 0;
 
-    // Tốc độ di chuyển
     [SerializeField] private float moveSpeed = 5.0f;
 
-    // Đối tượng PathCreator để lấy các điểm 
     private PathCreator pathCreator;
     public Vector3 endPos;
     public bool isKill = false;
-
+    public GameObject objGun;
     public virtual void SwichState(Istate state)
     {
         if (currentState != state)
@@ -37,8 +33,7 @@ public abstract class EnemyBase : ShotCollisionDamage
         rend = GetComponent<SpriteRenderer>();
         NormalColor = rend.color;
         //  SetupIndex();
-        SwichState(new SpawnerState(this));
-        currentState.EnterState();
+
     }
 
     public override void setDamage(float damage)
@@ -64,26 +59,8 @@ public abstract class EnemyBase : ShotCollisionDamage
         }
     }
 
-    #region EnemyState
 
-    #region SpawnState
-    public virtual void EnterSpawnState()
-    {
-
-    }
-    public virtual void UpdateSpawnState()
-    {
-
-    }
-    public virtual void ExitSpawnState() 
-    { 
-    
-    }
-    #endregion
-
-    #endregion
-
-    #region EnemyMoving
+    #region EnemySpawner
     // di chuyen theo duong
     public void SetPathCreator(PathCreator pathCreator, int idLIne)
     {
@@ -113,13 +90,49 @@ public abstract class EnemyBase : ShotCollisionDamage
         while (Vector3.Distance(transform.position, endPos) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, endPos, moveSpeed * Time.deltaTime);
+            SwichState(new IdleStateEnemy(this));
+            currentState.EnterState();
             yield return null;
         }
     }
     #endregion
+
+    #region EnemyIdle
+    public void EnterIdleState()
+    {
+        enemystate = EnemyState.IdleState;
+    }
+    public void ExitIdleState() { }
+    public void UpdateIdleState() { }
+    #endregion
+
+
+
+    #region EnemyAttack
+
+    public void EnterAttackState()
+    {
+        enemystate = EnemyState.AttackState;
+        objGun.gameObject.SetActive(true);
+    }
+    public void ExitAttackStates() {
+
+        objGun.gameObject.SetActive(false);
+    }
+    public void UpdateAttackState() { }
+    #endregion
+
+
+    public virtual void OnMovingEnemes()
+    {
+
+    }
+
 }
 public enum EnemyState
 {   
     none,
-    SpawnState,
+    IdleState,
+    MovingState,
+    AttackState,
 }

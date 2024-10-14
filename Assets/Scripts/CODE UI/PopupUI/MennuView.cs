@@ -22,6 +22,6 @@ public class MennuView : View
 
     public void OnClickPlay()
     {
-        ViewManager.SwitchView(ViewIndex.SelectMapView);
+        ViewManager.SwitchView(ViewIndex.SelectLevelView);
     }
 }

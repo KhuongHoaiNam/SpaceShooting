@@ -2,27 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnerState : Istate
+public class AttackStateEnemy : Istate
 {
 
     private readonly EnemyBase enemyBase;
-    public SpawnerState(EnemyBase spaceShip)
+    public AttackStateEnemy(EnemyBase spaceShip)
     {
         this.enemyBase = spaceShip;
     }
     public void EnterState()
     {
-        enemyBase.EnterSpawnState();
+        enemyBase.EnterAttackState();
     }
 
     public void ExitState()
     {
-        enemyBase.ExitSpawnState();
+        enemyBase.ExitAttackStates();
     }
 
     public void UpdateState()
     {
-        enemyBase.UpdateSpawnState();
+        enemyBase.UpdateAttackState();
     }
 
   
