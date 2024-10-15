@@ -17,6 +17,11 @@ public abstract class EnemyBase : ShotCollisionDamage
     public Vector3 endPos;
     public bool isKill = false;
     public GameObject objGun;
+
+    public float moveDuration = 2f;
+    public float moverTimer;
+    public Vector3 currentDirection;
+    public float mpEneme;
     public virtual void SwichState(Istate state)
     {
         if (currentState != state)
@@ -67,7 +72,7 @@ public abstract class EnemyBase : ShotCollisionDamage
         this.pathCreator = pathCreator;
         pathPoints = pathCreator.getPoints(idLIne); // Lấy đường dẫn đầu tiên
         StartCoroutine(MoveAlongPath());
-       
+
     }
 
     private IEnumerator MoveAlongPath()
@@ -91,7 +96,6 @@ public abstract class EnemyBase : ShotCollisionDamage
         {
             transform.position = Vector3.MoveTowards(transform.position, endPos, moveSpeed * Time.deltaTime);
             SwichState(new IdleStateEnemy(this));
-            currentState.EnterState();
             yield return null;
         }
     }
@@ -101,12 +105,11 @@ public abstract class EnemyBase : ShotCollisionDamage
     public void EnterIdleState()
     {
         enemystate = EnemyState.IdleState;
+        Debug.Log($"=========================={mpEneme}");
     }
     public void ExitIdleState() { }
     public void UpdateIdleState() { }
     #endregion
-
-
 
     #region EnemyAttack
 
@@ -115,22 +118,42 @@ public abstract class EnemyBase : ShotCollisionDamage
         enemystate = EnemyState.AttackState;
         objGun.gameObject.SetActive(true);
     }
-    public void ExitAttackStates() {
+    public void ExitAttackStates()
+    {
 
         objGun.gameObject.SetActive(false);
     }
     public void UpdateAttackState() { }
     #endregion
 
+    #region MovingStartGame
+    #endregion
 
-    public virtual void OnMovingEnemes()
+    #region EnemyMovingOnGameState
+    public void EnterMovingOnGame()
     {
-
+        enemystate = EnemyState.MovingState;
+        LevelControler.Instance.ChangeMovingDirction();
+        currentDirection = LevelControler.Instance.currentGlobleMoving;
     }
+    public void ExitMovingOnGame()
+    {
+        moverTimer = 0;
+    }
+    public void UpdateMovingOnGame() {
+
+        this.transform.position += currentDirection * moveSpeed * Time.deltaTime;
+        moverTimer += Time.deltaTime;
+        if (moverTimer >= moveDuration) {
+            SwichState(new IdleStateEnemy(this));
+        }
+    
+    }
+    #endregion
 
 }
 public enum EnemyState
-{   
+{
     none,
     IdleState,
     MovingState,

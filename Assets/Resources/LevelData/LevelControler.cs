@@ -26,6 +26,18 @@ public class LevelControler : SingletonMono<LevelControler>
     public ToolTipStateGame txtToolTip;
     public int idlv => Datamanager.Instance.user.levelPlaying;
 
+    public Vector3[] dicectionMovingEnemy =
+   {
+        //Vector3.up,       // Lên
+        Vector3.down,     // Xuống
+        Vector3.left,     // Trái
+        Vector3.right,    // Phải
+       // new Vector3(1, 1, 0),     // Góc trên bên phải
+        new Vector3(-1, 1, 0),    // Góc trên bên trái
+        new Vector3(1, -1, 0),    // Góc dưới bên phải
+        new Vector3(-1, -1, 0)    // Góc dưới bên trái
+    };
+    public Vector3 currentGlobleMoving;
     // Hàm Start được gọi khi bắt đầu game
     void Start()
     {
@@ -118,7 +130,7 @@ public class LevelControler : SingletonMono<LevelControler>
 
     private void CreateEnemy(Item idEnemy, int line)
     {
-        var dataLevel = levelData.maps[0].levels[idlv].waveData[wave].spawner[0].WidthEnemy[line].indexLine;
+        var dataLevel = levelData.maps[0].levels[idlv].waveData[wave].spawner[currentSpawner].WidthEnemy[line].indexLine;
         var enemyData = enemyDataConfigTable.DataTable.FirstOrDefault(e => e.enemyId == idEnemy);
         var pointIndex = pathCreator.Line[dataLevel].List_Points;
         if (enemyData == null || enemyData.enemyIndexInfos[0].enemy == null)
@@ -127,13 +139,16 @@ public class LevelControler : SingletonMono<LevelControler>
             return;
         }
         EnemyBase newEnemy = Instantiate(
+            //0 kia la level cua eneemy duoc sinh ra
             enemyData.enemyIndexInfos[0].enemy, pointIndex[0]
+            
            ,
             Quaternion.identity,
             parentObj
         );
         if (newEnemy != null)
         {
+            newEnemy.mpEneme = enemyData.enemyIndexInfos[0].mp;
             lstEnemySpawner.Add(newEnemy);
         }
         else
@@ -183,5 +198,11 @@ public class LevelControler : SingletonMono<LevelControler>
         txtToolTip.gameObject.SetActive(false);
         GenerateLevel(); // Gọi hàm để khởi tạo level
         StartCoroutine(SpawnEnemies()); // Bắt đầu quá trình sinh enemy
+    }
+
+    public void ChangeMovingDirction()
+    {
+        currentGlobleMoving = dicectionMovingEnemy[Random.Range(0, dicectionMovingEnemy.Length)];
+
     }
 }

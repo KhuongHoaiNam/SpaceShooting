@@ -10,10 +10,12 @@ public class Test : MonoBehaviour
     }
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Datamanager.Instance.ComplateLeves();
-        }
+        /*    if (Input.GetKeyDown(KeyCode.A))
+            {
+                Datamanager.Instance.ComplateLeves();
+            }*/
+        this.transform.position += new Vector3(5 * Time.deltaTime, 5* Time.deltaTime, 0);
+
     }
     /*public GameObject objectPrefabA; // Prefab của GameObject A
     public Transform parentTransformB; // GameObject B hoặc Transform của nó

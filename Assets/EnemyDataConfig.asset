@@ -17,7 +17,7 @@ MonoBehaviour:
     enemyIndexInfos:
     - level: 1
       hp: 0
-      mp: 0
+      mp: 300
       damge: 0
       iconAvt: {fileID: 21300000, guid: 9cf80513e36f3d3459d81ea09d3d08e0, type: 3}
       enemy: {fileID: 6331385346607342844, guid: 86a22d30e89c51e45bca7f9d49f32321, type: 3}
