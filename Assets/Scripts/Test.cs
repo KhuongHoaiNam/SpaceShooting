@@ -6,7 +6,7 @@ public class Test : MonoBehaviour
 {
     public void Start()
     {
-        Debug.Log(Datamanager.Instance.user.currentLevel);
+      //  Debug.Log(Datamanager.Instance.user.currentLevel);
     }
     public void Update()
     {

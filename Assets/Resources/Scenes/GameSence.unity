@@ -1890,6 +1890,16 @@ MonoBehaviour:
   enemyDataConfigTable: {fileID: 11400000, guid: 1e4ab25efeead4840be8e98803955ecb, type: 2}
   checkStatusChange: 0
   txtToolTip: {fileID: 312601262}
+  dicectionMovingEnemy:
+  - {x: 0, y: -1, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: -1, y: 1, z: 0}
+  - {x: 1, y: -1, z: 0}
+  - {x: -1, y: -1, z: 0}
+  currentGlobleMoving: {x: 0, y: 0, z: 0}
+  isMoving: 0
+  enemyLst: {fileID: 8813244465663411601}
 --- !u!1 &4288268846647060694
 GameObject:
   m_ObjectHideFlags: 0

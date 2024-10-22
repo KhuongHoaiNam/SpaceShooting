@@ -14,7 +14,7 @@ public class LevelControler : SingletonMono<LevelControler>
 
     [SerializeField] private float spawnInterval;
     [SerializeField] private int wave = 0;
-    [SerializeField] private int currentSpawner = 0 ;
+    [SerializeField] private int currentSpawner = 0;
     [SerializeField] private int thisLevel;
 
     // Bảng dữ liệu cấu hình enemy, chứa thông tin về các loại enemy
@@ -26,7 +26,7 @@ public class LevelControler : SingletonMono<LevelControler>
     public ToolTipStateGame txtToolTip;
     public int idlv => Datamanager.Instance.user.levelPlaying;
 
-    public Vector3[] dicectionMovingEnemy =
+/*    public Vector3[] dicectionMovingEnemy =
    {
         //Vector3.up,       // Lên
         Vector3.down,     // Xuống
@@ -37,17 +37,23 @@ public class LevelControler : SingletonMono<LevelControler>
         new Vector3(1, -1, 0),    // Góc dưới bên phải
         new Vector3(-1, -1, 0)    // Góc dưới bên trái
     };
-    public Vector3 currentGlobleMoving;
+    public Vector3 currentGlobleMoving;*/
+    public bool isMoving;
+    public GameObject enemyLst;
+    float moverTimer;
+    float moveDuration = 1f;
     // Hàm Start được gọi khi bắt đầu game
     void Start()
     {
-        StartCoroutine(OnShowToolTip(wave+1, currentSpawner+1));
-        Debug.Log(idlv);
+        StartCoroutine(OnShowToolTip(wave + 1, currentSpawner + 1));
+        //currentGlobleMoving = dicectionMovingEnemy[Random.Range(0, dicectionMovingEnemy.Length)];
+
     }
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.U)) {
+        if (Input.GetKeyDown(KeyCode.U))
+        {
             OnWin();
         }
     }
@@ -102,7 +108,7 @@ public class LevelControler : SingletonMono<LevelControler>
         {
             var Setupline = levelData.maps[0].levels[idlv].waveData[wave].spawner[currentSpawner].WidthEnemy[i].indexLine;
             lstEnemySpawner[i].endPos = transTarget[i];
-            lstEnemySpawner[i].SetPathCreator(pathCreator,Setupline ); // Đặt đường đi cho enemy
+            lstEnemySpawner[i].SetPathCreator(pathCreator, Setupline); // Đặt đường đi cho enemy
             yield return new WaitForSeconds(spawnInterval);
         }
     }
@@ -141,7 +147,7 @@ public class LevelControler : SingletonMono<LevelControler>
         EnemyBase newEnemy = Instantiate(
             //0 kia la level cua eneemy duoc sinh ra
             enemyData.enemyIndexInfos[0].enemy, pointIndex[0]
-            
+
            ,
             Quaternion.identity,
             parentObj
@@ -159,7 +165,7 @@ public class LevelControler : SingletonMono<LevelControler>
 
     public void SwitchWave()
     {
-        var totalWave = levelData.maps[0].levels[idlv].waveData.Count-1;
+        var totalWave = levelData.maps[0].levels[idlv].waveData.Count - 1;
 
         var totalSpawner = levelData.maps[0].levels[idlv].waveData[wave].spawner.Count - 1;
 
@@ -180,7 +186,8 @@ public class LevelControler : SingletonMono<LevelControler>
                     StartCoroutine(OnShowToolTip(totalWave, totalSpawner));
                 }
             }
-            else {
+            else
+            {
                 ViewManager.SwitchView(ViewIndex.PopupWinView);
             }
         }
@@ -200,9 +207,34 @@ public class LevelControler : SingletonMono<LevelControler>
         StartCoroutine(SpawnEnemies()); // Bắt đầu quá trình sinh enemy
     }
 
-    public void ChangeMovingDirction()
+    /*public void ChangeMovingDirction()
     {
-        currentGlobleMoving = dicectionMovingEnemy[Random.Range(0, dicectionMovingEnemy.Length)];
+        if (isMoving == true)
+        {
+          
+            for (int i = 0; i < lstEnemySpawner.Count; i++)
+            {
+                lstEnemySpawner[i].EnterMovingOnGame();
+                lstEnemySpawner[i].transform.position += currentGlobleMoving * 3f * Time.deltaTime;
+            }
+            moverTimer += Time.deltaTime;
 
-    }
+            if (moverTimer >= moveDuration)
+            {
+                isMoving = false;
+                moverTimer = 0; 
+            }
+
+            currentGlobleMoving = dicectionMovingEnemy[Random.Range(0, dicectionMovingEnemy.Length)];
+            enemyLst.transform.position += currentGlobleMoving * 0.3f * Time.deltaTime;
+            moverTimer += Time.deltaTime;
+            if (moverTimer >= moveDuration)
+            {
+                isMoving = false;
+                moverTimer = 0;
+            }
+
+        }
+       
+    }*/
 }

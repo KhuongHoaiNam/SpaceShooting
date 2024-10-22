@@ -16,7 +16,6 @@ namespace AAGame
 
         // Mảng các đường dẫn
         public line[] Line;
-
         // Vị trí ban đầu của đối tượng
         protected Vector3 _originalTransformPosition;
         public Vector3 originalTransformPosition => _originalTransformPosition;
@@ -173,6 +172,7 @@ namespace AAGame
     {
         [SerializeField]
         public List<Vector3> List_Points;
+        
     }
 
 

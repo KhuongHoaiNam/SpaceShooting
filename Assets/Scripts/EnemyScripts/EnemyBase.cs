@@ -18,29 +18,24 @@ public abstract class EnemyBase : ShotCollisionDamage
     public bool isKill = false;
     public GameObject objGun;
 
-    public float moveDuration = 2f;
-    public float moverTimer;
-    public Vector3 currentDirection;
     public float mpEneme;
-    public virtual void SwichState(Istate state)
-    {
-        if (currentState != state)
-        {
-            //currentState.EnterState();
-            currentState = state;
-            currentState.EnterState();
-        }
-    }
+    public float currentMp;
+    public bool countMP;
 
     public override void Start()
     {
         base.Start();
         rend = GetComponent<SpriteRenderer>();
         NormalColor = rend.color;
+        SwichState(new SpawnerStateEnemy(this));
         //  SetupIndex();
 
     }
 
+    public void Update()
+    {
+        currentState.UpdateState();
+    }
     public override void setDamage(float damage)
     {
         base.setDamage(damage);
@@ -64,8 +59,28 @@ public abstract class EnemyBase : ShotCollisionDamage
         }
     }
 
+    public virtual void SwichState(Istate state)
+    {
+        if (currentState != state)
+        {
+            //currentState.EnterState();
+            currentState = state;
+            currentState.EnterState();
+        }
+    }
 
     #region EnemySpawner
+     public virtual void EnterSpawnerState()
+    {
+        enemystate = EnemyState.SpawnerState;
+        Debug.Log($"SpawnerState   ");
+    }
+    public virtual void ExitSpawnerState() { }
+    public virtual void UpdateSpawnerState()
+    {
+
+    }
+
     // di chuyen theo duong
     public void SetPathCreator(PathCreator pathCreator, int idLIne)
     {
@@ -102,52 +117,70 @@ public abstract class EnemyBase : ShotCollisionDamage
     #endregion
 
     #region EnemyIdle
-    public void EnterIdleState()
+    public virtual void EnterIdleState()
     {
         enemystate = EnemyState.IdleState;
+        currentMp = 0;
         Debug.Log($"=========================={mpEneme}");
     }
-    public void ExitIdleState() { }
-    public void UpdateIdleState() { }
+    public virtual void ExitIdleState() { }
+    public virtual void UpdateIdleState()
+    {
+        if(countMP == true)
+        {
+            currentMp += 10f * Time.deltaTime;
+            if (currentMp >= mpEneme)
+            {
+                SwichState(new AttackStateEnemy(this));
+                countMP = false;
+            }
+        }
+       
+    }
     #endregion
 
     #region EnemyAttack
 
-    public void EnterAttackState()
+    public virtual void EnterAttackState()
     {
         enemystate = EnemyState.AttackState;
-        objGun.gameObject.SetActive(true);
+        if(objGun != null)
+        {
+            objGun.gameObject.SetActive(true);
+        }
     }
-    public void ExitAttackStates()
+    public virtual void UpdateAttackState()
     {
-
-        objGun.gameObject.SetActive(false);
+        /*currentMp -= 10f * Time.deltaTime;
+        if (currentMp <= 0) {
+            SwichState(new MovingStateEnemy(this));
+            currentState.EnterState();
+        }*/
     }
-    public void UpdateAttackState() { }
+    public virtual void ExitAttackStates()
+    {
+        if (objGun != null)
+        {
+            objGun.gameObject.SetActive(false);
+        }
+    }
     #endregion
 
     #region MovingStartGame
     #endregion
 
     #region EnemyMovingOnGameState
-    public void EnterMovingOnGame()
+    public virtual void EnterMovingOnGame()
     {
         enemystate = EnemyState.MovingState;
-        LevelControler.Instance.ChangeMovingDirction();
-        currentDirection = LevelControler.Instance.currentGlobleMoving;
+        //thuc hien hanh dong di chuyen
     }
-    public void ExitMovingOnGame()
+    public virtual void ExitMovingOnGame()
     {
-        moverTimer = 0;
     }
-    public void UpdateMovingOnGame() {
-
-        this.transform.position += currentDirection * moveSpeed * Time.deltaTime;
-        moverTimer += Time.deltaTime;
-        if (moverTimer >= moveDuration) {
-            SwichState(new IdleStateEnemy(this));
-        }
-    
+    public virtual void UpdateMovingOnGame()
+    {
+      
     }
     #endregion
 
@@ -155,6 +188,7 @@ public abstract class EnemyBase : ShotCollisionDamage
 public enum EnemyState
 {
     none,
+    SpawnerState,
     IdleState,
     MovingState,
     AttackState,

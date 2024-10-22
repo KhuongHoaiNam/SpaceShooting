@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &205941994674105857
 Transform:
   m_ObjectHideFlags: 0
@@ -165,6 +165,12 @@ MonoBehaviour:
   moveSpeed: 27
   endPos: {x: 0, y: 0, z: 0}
   isKill: 0
+  objGun: {fileID: 410486442064106939}
+  moveDuration: 2
+  moverTimer: 0
+  currentDirection: {x: 0, y: 0, z: 0}
+  mpEneme: 0
+  currentMp: 0
 --- !u!58 &5810498671671977006
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -371,7 +377,7 @@ MonoBehaviour:
   SpriteOverride: {fileID: 0}
   ParentToEmitter: 0
   IgnoreGlobalRateScale: 0
-  ShotRate: 5
+  ShotRate: 173
   PauseRate: 100
   PauseLength: 30
   ShotOverlap: 1
